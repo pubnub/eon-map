@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset=utf-8 />
-<title>GeoJSON from live realtime data</title>
+<title>Taco Transport</title>
 <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.js'></script>
 <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css' rel='stylesheet' />
@@ -14,42 +14,130 @@
 <body>
 <div id='map'></div>
 <script>
+var defaultIcon = {
+  'marker-color': '#f86767'
+};
 
 var torchys = [
-  [30.370375, -97.756138],
-  [30.323118, -97.739144],
-  [30.302816, -97.699490],
-  [30.293479, -97.742405],
-  [30.250337, -97.754593],
-  [30.236689, -97.762730]
+  {
+    latlng: [30.370375, -97.756138],
+    icon: defaultIcon,
+  },
+  {
+    latlng: [30.323118, -97.739144],
+    icon: defaultIcon
+  },
+  {
+    latlng: [30.302816, -97.699490],
+    icon: defaultIcon
+  },
+  {
+    latlng: [30.293479, -97.742405],
+    icon: defaultIcon
+  },
+  {
+    latlng: [30.250337, -97.754593],
+    icon: defaultIcon
+  },
+  {
+    latlng: [30.236689, -97.762730],
+    icon: defaultIcon
+  }
 ];
 
-var randomTaco = function () {
-  return torchys[Math.floor(Math.random() * torchys.length)];
-}
-
-var firstTaco = randomTaco();
-
 L.mapbox.accessToken = 'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg';
-var map = L.mapbox.map('map', 'ianjennings.l896mh2e')
-    .setView(firstTaco, 13);
+var map = L.mapbox.map('map', 'ianjennings.l896mh2e');
 
-var marker = L.marker(firstTaco, {
-  icon: L.mapbox.marker.icon({
-    'marker-color': '#f86767'
-  })
-});
+var markers = function (map) {
 
-marker.addTo(map);
+  var self = this;
+  self.markers = {};
+  self.map = map;
+
+  self.init = function (seed) {
+
+    var i = 0;
+    while(i < seed.length) {
+
+      markers[i] = L.marker(seed[i].latlng, {
+        icon: L.mapbox.marker.icon(seed[i].icon)
+      });
+
+      markers[i].addTo(self.map);
+
+      self.animate(i, [seed[i].latlng[0] + .005, seed[i].latlng[1] + .005]);
+      i++;
+
+    }
+
+  };
+  self.panTo = function(index) {
+    self.map.panTo(markers[index].latlng);
+  };
+
+  self.update = function (index, point) {
+
+    console.log('updating to ')
+    console.log(point)
+    markers[index].setLatLng(point);
+
+  };
+
+  self.animate = function (index, destination) {
+
+    var i = 1;
+    var steps = 10;
+    var delay = 1000;
+
+    var nextStep = function() {
+
+      var position = markers[index].getLatLng();
+
+      var lat = position.lat + ((destination[0] - position.lat) / steps) * i;
+      var lng = position.lng + ((destination[1] - position.lng) / steps) * i;
+
+      return [lat, lng];
+
+    };
+
+    var step = function() {
+
+      if(i < steps) {
+        self.update(index, nextStep(i));
+        i++;
+        setTimeout(step, delay);
+      }
+
+    }
+
+    step();
+
+  };
+
+};
+
+var tacos = new markers(map);
+tacos.init(torchys);
+map.setView(torchys[2].latlng, 13);
+
+/*
+for (var i = 0; i < 300; i++) {
+    start[0] += momentum[0];
+    start[1] += momentum[1];
+    if (start[1] > 60 || start[1] < -60) momentum[1] *= -1;
+    if (start[0] > 170 || start[0] < -170) momentum[0] *= -1;
+    geojson.coordinates.push(start.slice());
+}
 
 var run = function() {
-  var nextPoint = randomTaco();
-  marker.setLatLng(nextPoint)
-  map.panTo(nextPoint);
-}
+
+  addPoint(randomTaco());
+
+};
 window.setInterval(function() {
   run();
-}, 3000);
+}, 1000);
+*/
 </script>
 </body>
 </html>
