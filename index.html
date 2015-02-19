@@ -14,84 +14,88 @@
 <body>
 <div id='map'></div>
 <script>
-var defaultIcon = {
-  'marker-color': '#f86767'
-};
-
-var torchys = [
-  {
-    latlng: [30.370375, -97.756138],
-    icon: defaultIcon,
-  },
-  {
-    latlng: [30.323118, -97.739144],
-    icon: defaultIcon
-  },
-  {
-    latlng: [30.302816, -97.699490],
-    icon: defaultIcon
-  },
-  {
-    latlng: [30.293479, -97.742405],
-    icon: defaultIcon
-  },
-  {
-    latlng: [30.250337, -97.754593],
-    icon: defaultIcon
-  },
-  {
-    latlng: [30.236689, -97.762730],
-    icon: defaultIcon
-  }
-];
 
 L.mapbox.accessToken = 'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg';
 var map = L.mapbox.map('map', 'ianjennings.l896mh2e');
 
-var markers = function (map) {
+var plotter = function (map) {
 
   var self = this;
-  self.markers = {};
-  self.map = map;
 
-  self.init = function (seed) {
+  self.markers = [];
+  self.map = map;
+  self.following = false;
+
+  self.update = function (seed, animate) {
 
     var i = 0;
     while(i < seed.length) {
 
-      markers[i] = L.marker(seed[i].latlng, {
-        icon: L.mapbox.marker.icon(seed[i].icon)
-      });
+      if(typeof self.markers[i] == 'undefined') {
 
-      markers[i].addTo(self.map);
+        self.markers[i] = L.marker(seed[i].latlng);
+        self.markers[i].addTo(self.map);
 
-      self.animate(i, [seed[i].latlng[0] + .005, seed[i].latlng[1] + .005]);
+      } else {
+
+        if(self.markers[i].lat !== seed[i].latlng[0] ||
+           self.markers[i].getLatLng().lng !== seed[i].latlng[1]) {
+
+          if(animate) {
+            self.animate(i, seed[i].latlng);
+          } else {
+            self.updateMarker(i, seed[i].latlng);
+          }
+
+        } else {
+          console.log('everything is the same')
+        }
+
+
+      }
+
+      console.log('any options?')
+      if(typeof seed[i].options !== 'undefined') {
+        for(j in seed[i].options) {
+
+          if(j == 'icon') {
+            console.log('updating icon')
+            console.log(seed[i].options[j])
+
+            self.markers[i].setIcon(L.mapbox.marker.icon(seed[i].options[j]));
+          }
+
+        }
+      }
+
       i++;
 
     }
 
   };
+
   self.panTo = function(index) {
-    self.map.panTo(markers[index].latlng);
+    self.map.panTo(self.markers[index].getLatLng());
   };
 
-  self.update = function (index, point) {
+  self.follow = function (index) {
+    self.following = index;
+    self.panTo(index);
+  };
 
-    console.log('updating to ')
-    console.log(point)
-    markers[index].setLatLng(point);
-
+  self.updateMarker = function (index, point) {
+    self.markers[index].setLatLng(point);
   };
 
   self.animate = function (index, destination) {
 
     var i = 1;
-    var steps = 10;
-    var delay = 1000;
+    var steps = 200;
+    var delay = 100;
+
+    var position = self.markers[index].getLatLng();
 
     var nextStep = function() {
-
-      var position = markers[index].getLatLng();
 
       var lat = position.lat + ((destination[0] - position.lat) / steps) * i;
       var lng = position.lng + ((destination[1] - position.lng) / steps) * i;
@@ -103,9 +107,17 @@ var markers = function (map) {
     var step = function() {
 
       if(i < steps) {
-        self.update(index, nextStep(i));
+
+        self.updateMarker(index, nextStep(i));
+
+        if(self.following === index) {
+          console.log('yes')
+          self.panTo(index);
+        }
+
         i++;
         setTimeout(step, delay);
+
       }
 
     }
@@ -116,28 +128,73 @@ var markers = function (map) {
 
 };
 
-var tacos = new markers(map);
-tacos.init(torchys);
-map.setView(torchys[2].latlng, 13);
-
-/*
-for (var i = 0; i < 300; i++) {
-    start[0] += momentum[0];
-    start[1] += momentum[1];
-    if (start[1] > 60 || start[1] < -60) momentum[1] *= -1;
-    if (start[0] > 170 || start[0] < -170) momentum[0] *= -1;
-    geojson.coordinates.push(start.slice());
+function getNonZeroRandomNumber(){
+  var random = Math.floor(Math.random()*199) - 99;
+  if(random==0) return getNonZeroRandomNumber();
+  return random;
 }
 
-var run = function() {
-
-  addPoint(randomTaco());
-
+var me = {
+  icon: {
+    'marker-color': '#ce1126'
+  }
 };
-window.setInterval(function() {
-  run();
-}, 1000);
-*/
+var them = {
+  icon: {
+    'marker-color': '#29abe2'
+  }
+};
+
+var torchys = [
+  {
+    latlng: [30.370375, -97.756138],
+    options: them
+  },
+  {
+    latlng: [30.323118, -97.739144],
+    options: them
+  },
+  {
+    latlng: [30.302816, -97.699490],
+    options: them
+  },
+  {
+    latlng: [30.293479, -97.742405],
+    options: me
+  },
+  {
+    latlng: [30.250337, -97.754593],
+    options: them
+  },
+  {
+    latlng: [30.236689, -97.762730],
+    options: them
+  }
+];
+
+// simple clone hack
+var new_torchys = JSON.parse(JSON.stringify(torchys));
+for (var i = 0; i < new_torchys.length; i++) {
+
+  new_torchys[i] = {
+    latlng: [
+      new_torchys[i].latlng[0] + (getNonZeroRandomNumber() * 0.0005),
+      new_torchys[i].latlng[1] + (getNonZeroRandomNumber() * 0.0005)
+    ]
+  }
+
+}
+
+var tacos = new plotter(map);
+
+tacos.update(torchys);
+tacos.update(new_torchys, true);
+
+console.log(tacos.markers)
+
+map.setView(tacos.markers[3].getLatLng(), 13);
+tacos.follow(3);
+
 </script>
 </body>
 </html>
