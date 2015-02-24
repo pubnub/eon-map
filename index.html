@@ -6,6 +6,7 @@
 <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 <script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.js'></script>
 <link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css' rel='stylesheet' />
+<script src="http://cdn.pubnub.com/pubnub-3.7.1.min.js"></script>
 <style>
   body { margin:0; padding:0; }
   #map { position:absolute; top:0; bottom:0; width:100%; }
@@ -18,9 +19,15 @@
 L.mapbox.accessToken = 'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg';
 var map = L.mapbox.map('map', 'ianjennings.l896mh2e');
 
-var plotter = function (map) {
+var pubnub_mapbox = function (options) {
 
   var self = this;
+
+  var map = options.map || false;
+
+  options.channel = options.channel || false;
+  options.subscribe_key = options.subscribe_key || 'demo';
+  options.init = options.init || function(){};
 
   self.markers = [];
 
@@ -111,8 +118,7 @@ var plotter = function (map) {
         var nextStep = [lat, lng];
 
         if(index == 0) {
-
-          console.log(maxSteps, timeSince, numSteps, nextStep)
+          // console.log(maxSteps, timeSince, numSteps, nextStep)
         }
 
         self.updateMarker(index, nextStep);
@@ -123,8 +129,25 @@ var plotter = function (map) {
 
     };
 
-
   };
+
+  var pubnub = PUBNUB.init({
+      publish_key   : 'demo',
+      subscribe_key : 'demo'
+  });
+
+  pubnub.subscribe({
+    channel : options.channel,
+    message : function(new_torchys,env,channel){
+
+      tacos.update(new_torchys, true)
+      map.setView(new_torchys[3].latlng, 13);
+
+    },
+    connect: function(){
+      options.init();
+    }
+  });
 
   self.refresh();
   setInterval(self.refresh, self.refreshRate);
@@ -136,6 +159,17 @@ function getNonZeroRandomNumber(){
   if(random==0) return getNonZeroRandomNumber();
   return random;
 }
+
+var channel = 'pubnub-mapbox-' + getNonZeroRandomNumber();
+
+var tacos = new pubnub_mapbox({
+  map: map,
+  subscribe_key: 'demo',
+  channel: channel,
+  init: init
+});
+
+//////////////
 
 var me = {
   icon: {
@@ -175,29 +209,36 @@ var torchys = [
   }
 ];
 
-var tacos = new plotter(map);
 
-tacos.update(torchys);
+function init() {
 
-setInterval(function(){
+  setInterval(function(){
 
-  var new_torchys = JSON.parse(JSON.stringify(torchys));
-  for (var i = 0; i < new_torchys.length; i++) {
+    var new_torchys = JSON.parse(JSON.stringify(torchys));
+    for (var i = 0; i < new_torchys.length; i++) {
 
-    new_torchys[i] = {
-      latlng: [
-        new_torchys[i].latlng[0] + (getNonZeroRandomNumber() * 0.0002),
-        new_torchys[i].latlng[1] + (getNonZeroRandomNumber() * 0.0002)
-      ]
+      new_torchys[i] = {
+        options: new_torchys[i].options,
+        latlng: [
+          new_torchys[i].latlng[0] + (getNonZeroRandomNumber() * 0.0002),
+          new_torchys[i].latlng[1] + (getNonZeroRandomNumber() * 0.0002)
+        ]
+      }
+
     }
 
-  }
+    pn.publish({
+      channel: channel,
+      message: new_torchys
+    });
 
-  tacos.update(new_torchys, true);
-  map.setView(new_torchys[3].latlng, 13);
+  }, 1000);
 
+}
 
-}, 1000);
+var pn = PUBNUB.init({
+  publish_key: 'demo'
+});
 
 </script>
 </body>
