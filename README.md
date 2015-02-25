@@ -154,8 +154,6 @@ var torchys = [
 
 ## Kitchen Sink
 
-![](http://i.imgur.com/cOPIrR9.gif)
-
 Check out the ```extra.html``` demo for an example of tracking multiple markers on a graph.
 
 ## Customizing with Mapbox
