@@ -34,21 +34,61 @@
       L.mapbox.accessToken = 'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg';
       var map = L.mapbox.map('map', 'ianjennings.l896mh2e');
 
-      var channel = 'pubnub-mapbox';
+      var channel = 'pubnub-mapbox-' + getNonZeroRandomNumber();
 
       var tacos = new pubnub_mapbox({
         map: map,
+        subscribe_key: 'demo',
         channel: channel,
         init: init
+      });
+
+      tacos.follow({
+        index: 3,
+        zoom: 13
       });
 
       //////////////
 
       function init() {
 
-        var point = {
-          latlng: [37.370375, -97.756138]
+        var me = {
+          icon: {
+            'marker-color': '#ce1126'
+          }
         };
+        var them = {
+          icon: {
+            'marker-color': '#29abe2'
+          }
+        };
+
+        var torchys = [
+          {
+            latlng: [30.370375, -97.756138],
+            options: them
+          },
+          {
+            latlng: [30.323118, -97.739144],
+            options: them
+          },
+          {
+            latlng: [30.302816, -97.699490],
+            options: them
+          },
+          {
+            latlng: [30.293479, -97.742405],
+            options: me
+          },
+          {
+            latlng: [30.250337, -97.754593],
+            options: them
+          },
+          {
+            latlng: [30.236689, -97.762730],
+            options: them
+          }
+        ];
 
         var pn = PUBNUB.init({
           publish_key: 'demo'
@@ -56,19 +96,25 @@
 
         setInterval(function(){
 
-          var new_point = JSON.parse(JSON.stringify(point));
+          var new_torchys = JSON.parse(JSON.stringify(torchys));
+          for (var i = 0; i < new_torchys.length; i++) {
 
-          new_point.latlng = [
-            new_point.latlng[0] + (getNonZeroRandomNumber() * 0.1),
-            new_point.latlng[1] + (getNonZeroRandomNumber() * 0.2)
-          ];
+            new_torchys[i] = {
+              options: new_torchys[i].options,
+              latlng: [
+                new_torchys[i].latlng[0] + (getNonZeroRandomNumber() * 0.0002),
+                new_torchys[i].latlng[1] + (getNonZeroRandomNumber() * 0.0002)
+              ]
+            }
+
+          }
 
           pn.publish({
             channel: channel,
-            message: [new_point]
+            message: new_torchys
           });
 
-        }, 500);
+        }, 1000);
 
       };
 
