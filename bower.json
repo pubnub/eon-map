@@ -1,0 +1,31 @@
+{
+  "name": "pubnub-mapbox",
+  "version": "0.1.0",
+  "homepage": "https://github.com/pubnub/pubnub-mapbox",
+  "authors": [
+    "Ian Jennings <ian@meetjennings.com>"
+  ],
+  "main": "pubnub_mapbox.js",
+  "keywords": [
+    "maps",
+    "pubnub",
+    "google",
+    "maps",
+    "realtime",
+    "marker",
+    "uber",
+    "lyft",
+    "latlong",
+    "lat",
+    "long",
+    "streaming"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
