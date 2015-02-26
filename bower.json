@@ -1,11 +1,11 @@
 {
-  "name": "pubnub-mapbox",
+  "name": "eon-mapbox",
   "version": "0.1.0",
   "homepage": "https://github.com/pubnub/pubnub-mapbox",
   "authors": [
     "Ian Jennings <ian@meetjennings.com>"
   ],
-  "description": "PubNub + Mapbox Realtime Maps. Part of the EON Framework.",
+  "description": "Mapbox Realtime Maps with PubNub. Part of the EON Framework.",
   "main": "pubnub-mapbox.js",
   "keywords": [
     "maps",
