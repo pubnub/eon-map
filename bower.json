@@ -5,7 +5,8 @@
   "authors": [
     "Ian Jennings <ian@meetjennings.com>"
   ],
-  "main": "pubnub_mapbox.js",
+  "description": "PubNub + Mapbox Realtime Maps. Part of the EON Framework.",
+  "main": "pubnub-mapbox.js",
   "keywords": [
     "maps",
     "pubnub",
@@ -27,5 +28,8 @@
     "bower_components",
     "test",
     "tests"
-  ]
+  ],
+  "dependencies": {
+    "pubnub": "~3.7.8"
+  }
 }
