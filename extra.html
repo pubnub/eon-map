@@ -34,24 +34,15 @@
       }
     </script>
     <script>
-      L.mapbox.accessToken = 'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg';
-      var map = L.mapbox.map('map', 'ianjennings.l896mh2e');
-
       var channel = 'pubnub-mapbox-' + getNonZeroRandomNumber();
 
-      var tacos = new pubnub_mapbox({
-        map: map,
+      var map = eon.map({
+        mb_id: 'ianjennings.l896mh2e',
+        mb_token: 'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg',
         subscribe_key: 'demo',
         channel: channel,
         init: init
       });
-
-      tacos.follow({
-        index: 3,
-        zoom: 13
-      });
-
-      //////////////
 
       function init() {
 
@@ -110,7 +101,12 @@
               ]
             }
 
+            if(i == 3) {
+              map.setView(new_torchys[i].latlng, 13);
+            }
+
           }
+
 
           pn.publish({
             channel: channel,

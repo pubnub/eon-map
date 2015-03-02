@@ -1,8 +1,27 @@
-var pubnub_mapbox = function (options) {
+var eon = eon || {};
+eon.map = function (options) {
+
+  if(typeof(PUBNUB) == "undefined" && console) {
+    return console.error("PubNub not found. See http://www.pubnub.com/docs/javascript/javascript-sdk.html#_where_do_i_get_the_code");
+  }
+
+  if(typeof(options.mb_token) == "undefined" && console) {
+    return console.error("Please supply a Mapbox Token: https://www.mapbox.com/help/create-api-access-token/");
+  }
+
+  if(typeof(options.mb_id) == "undefined" && console) {
+    return console.error("Please supply a Mapbox Map ID: https://www.mapbox.com/help/define-map-id/");
+  }
+
+  if(typeof(L) == "undefined" && console) {
+    return console.error("You need to include the Mapbox Javascript library.");
+  }
 
   var self = this;
 
-  var map = options.map || false;
+  L.mapbox.accessToken = options.mb_token;
+
+  self.map = L.mapbox.map('map', options.mb_id);
 
   options.channel = options.channel || false;
   options.subscribe_key = options.subscribe_key || 'demo';
@@ -12,9 +31,7 @@ var pubnub_mapbox = function (options) {
   self.markers = [];
 
   self.refreshRate = 10;
-  self.following = false;
 
-  self.map = map;
   self.lastUpdate = new Date().getTime();
 
   self.update = function (seed, animate) {
@@ -44,6 +61,7 @@ var pubnub_mapbox = function (options) {
       }
 
       if(typeof seed[i].options !== 'undefined') {
+
         for(j in seed[i].options) {
 
           if(j == 'icon') {
@@ -58,7 +76,6 @@ var pubnub_mapbox = function (options) {
     }
 
     self.lastUpdate = new Date().getTime();
-    self.followMark();
 
   };
 
@@ -67,6 +84,7 @@ var pubnub_mapbox = function (options) {
   };
 
   self.animations = {};
+
   self.animate = function (index, destination) {
 
     self.animations[index] = {
@@ -104,30 +122,6 @@ var pubnub_mapbox = function (options) {
       }
 
       index++;
-
-    };
-
-  };
-
-  self.follow = function(data) {
-    self.following = data;
-  };
-
-  self.followMark = function(){
-
-    if(self.following) {
-
-      var zoom = 13;
-      var index = 0;
-
-      if(self.following.hasOwnProperty('zoom')) {
-        zoom = self.following.zoom;
-      }
-      if(self.following.hasOwnProperty('index')) {
-        index = self.following.index;
-      }
-
-      map.setView(self.markers[index].getLatLng(), zoom);
 
     }
 
@@ -170,7 +164,6 @@ var pubnub_mapbox = function (options) {
   self.refresh();
   setInterval(self.refresh, self.refreshRate);
 
-};
+  return self.map;
 
-var eon = eon || {};
-eon.mapbox = pubnub_mapbox;
+}
