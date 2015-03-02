@@ -7,8 +7,9 @@ Real-time location tracking.
 ## Quickstart
 
 ```js
-var pnmap = new pubnub_mapbox({
-  map: map,
+eon.map({
+  mb_token: 'mapbox api token',
+  mb_id: 'mapbox map id',
   subscribe_key: 'demo',
   channel: 'my map channel',
   history: false,
@@ -36,22 +37,16 @@ Include ```mapbox.css```, ```mapbox.js```, ```pubnub.js```, and ```pubnub_mapbox
 <script src="pubnub_mapbox.js"></script>
 ```
 
-Then, initialize Mapbox with your token and map ID like normal.
-
-```js
-L.mapbox.accessToken = 'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg';
-var map = L.mapbox.map('map', 'ianjennings.l896mh2e');
-```
-
-Then, initialize ```pubnub_mapbox```. Check out the table of options above for more information.
+Then, call ```eon.map({})```. Check out the table of options above for more information.
 
 ```js
 var channel = 'pubnub-mapbox';
 
-var tacos = new pubnub_mapbox({
-    map: map,
-    channel: channel,
-    init: init
+eon.map({
+  mb_token: 'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg',
+  mb_id: 'ianjennings.l896mh2e',
+  channel: channel,
+  init: init
 });
 ```
 
@@ -59,7 +54,7 @@ var tacos = new pubnub_mapbox({
 
 ## Lat/Long Values
 
-```pubnubu_mapbox``` expects an array of objects to be published on the same channel it's subscribed to. More on publishing in the next section.
+```eon.map``` expects an array of objects to be published on the same channel it's subscribed to. More on publishing in the next section.
 
 For example, below you can find a list of all the Torchy's Tacos in Austin, TX.
 
@@ -158,6 +153,6 @@ Check out the ```extra.html``` demo for an example of tracking multiple markers 
 
 ## Customizing with Mapbox
 
-The ```map``` object supplied to ```pubnub_mapbox``` can be customized using the [Mapbox API](https://www.mapbox.com/mapbox.js/api/v2.1.5/). Also see the [Mapbox examples page](https://www.mapbox.com/mapbox.js/example/v1.0.0/).
+The MapBox map object is returned by ```eon.mapbox``` and can be customized using the [Mapbox API](https://www.mapbox.com/mapbox.js/api/v3.1.5/). Also see the [Mapbox examples page](https://www.mapbox.com/mapbox.js/example/v1.0.0/).
 
 Also note that you can customize your map using Mapbox map editor. You can change the map background style, add static markers, etc. Visit [Mapbox](https://www.mapbox.com/) for your own API key.
