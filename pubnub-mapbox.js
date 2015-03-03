@@ -24,7 +24,7 @@ eon.map = function (options) {
   self.map = L.mapbox.map('map', options.mb_id);
 
   options.channel = options.channel || false;
-  options.subscribe_key = options.subscribe_key || 'demo';
+  options.subscribe_key = options.subscribe_key || eon.subscribe_key || 'demo';
   options.init = options.init || function(){};
   options.history = options.history || false;
 
@@ -128,8 +128,7 @@ eon.map = function (options) {
   };
 
   var pubnub = PUBNUB.init({
-      publish_key   : 'demo',
-      subscribe_key : 'demo'
+    subscribe_key: options.subscribe_key
   });
 
   pubnub.subscribe({
