@@ -133,10 +133,10 @@ eon.map = function (options) {
 
   pubnub.subscribe({
     channel : options.channel,
-    message : function(new_torchys,env,channel){
+    message : function(message, env, channel){
 
-      options.message();
-      self.update(new_torchys, true);
+      options.message(message, env, channel);
+      self.update(message, true);
 
     },
     connect: function(){
