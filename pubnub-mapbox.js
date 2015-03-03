@@ -168,5 +168,5 @@ eon.map_create = function (options) {
 
 };
 eon.map = function(o) {
-  return new map_create(o);
+  return new eon.map_create(o);
 };
