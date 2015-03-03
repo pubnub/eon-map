@@ -42,7 +42,6 @@ eon.map = function (options) {
 
       if(typeof self.markers[i] == 'undefined') {
 
-
         self.markers[i] = L.marker(seed[i].latlng);
         self.markers[i].addTo(self.map);
 
