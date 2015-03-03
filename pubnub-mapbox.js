@@ -1,5 +1,5 @@
 var eon = eon || {};
-eon.map = function (options) {
+eon.map_create = function (options) {
 
   if(typeof(PUBNUB) == "undefined" && console) {
     return console.error("PubNub not found. See http://www.pubnub.com/docs/javascript/javascript-sdk.html#_where_do_i_get_the_code");
@@ -166,4 +166,7 @@ eon.map = function (options) {
 
   return self.map;
 
-}
+};
+eon.map = function(o) {
+  return new map_create(o);
+};
