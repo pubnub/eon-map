@@ -13,7 +13,7 @@ eon.map({
   subscribe_key: 'demo',
   channel: 'my map channel',
   history: false,
-  init: init,
+  connect: connect,
 });
 ```
 
@@ -24,7 +24,7 @@ Parameter | Value | Default
 | graph | Mapbox map object. | ```undefined```
 | subscribe_key | Your PubNub subscribe_key | ```demo```
 | history | Use PubNub history call to retrieve last message. This will display points at their last known location. Requires [PubNub storage](http://www.pubnub.com/how-it-works/storage-and-playback/) to be enabled. | ```false```
-| init | This function fires once data has been retrieved from PubNub.  | ```function(){}```
+| connect | This function fires once data has been retrieved from PubNub.  | ```function(){}```
 
 ## Simple Example
 
@@ -46,7 +46,7 @@ eon.map({
   mb_token: 'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg',
   mb_id: 'ianjennings.l896mh2e',
   channel: channel,
-  init: init
+  connect: connect
 });
 ```
 
@@ -71,7 +71,7 @@ var torchys = [
 
 ## Publishing Messages
 
-The function below is called ```init``` and fires when the ```pubnub_mapbox``` library is ready.
+The function below is called ```connect``` and fires when the ```pubnub_mapbox``` library is ready.
 
 This function uses the included PubNub library to pubnub.publish() 
 packets to the pubnub.subscribe() call waiting inside the 
@@ -81,7 +81,7 @@ Notice how the ```subscribe_key``` and ```channel```  matches.
 
 ```js
 
-function init() {
+function connect() {
 
 var point = {
   latlng: [37.370375, -97.756138]
