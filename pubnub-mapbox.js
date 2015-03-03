@@ -25,8 +25,9 @@ eon.map = function (options) {
 
   options.channel = options.channel || false;
   options.subscribe_key = options.subscribe_key || eon.subscribe_key || 'demo';
-  options.init = options.init || function(){};
   options.history = options.history || false;
+  options.message = options.message || function(){};
+  options.connect = options.connect || function(){};
 
   self.markers = [];
 
@@ -135,6 +136,7 @@ eon.map = function (options) {
     channel : options.channel,
     message : function(new_torchys,env,channel){
 
+      options.message();
       self.update(new_torchys, true);
 
     },
@@ -149,12 +151,12 @@ eon.map = function (options) {
             if(m.length[0]) {
               self.update(m[0][0], true);
             }
-            options.init();
+            options.connect();
           }
        });
 
       } else {
-        options.init();
+        options.connect();
       }
 
     }
