@@ -31,7 +31,7 @@ eon.map_create = function (options) {
 
   self.markers = [];
 
-  self.refreshRate = 10;
+  self.refreshRate = options.refreshRate || 10;
 
   self.lastUpdate = new Date().getTime();
 
