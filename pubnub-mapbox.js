@@ -21,8 +21,7 @@ eon.map_create = function (options) {
 
   L.mapbox.accessToken = options.mb_token;
 
-  self.map = L.mapbox.map('map', options.mb_id);
-
+  options.id = options.id || false;
   options.channel = options.channel || false;
   options.subscribe_key = options.subscribe_key || eon.subscribe_key || 'demo';
   options.history = options.history || false;
@@ -30,6 +29,12 @@ eon.map_create = function (options) {
   options.connect = options.connect || function(){};
 
   self.markers = [];
+
+  if(!options.id) {
+    return console.error('You need to set an ID for your Mapbox element.');
+  }
+
+  self.map = L.mapbox.map(options.id, options.mb_id);
 
   self.refreshRate = options.refreshRate || 10;
 
