@@ -58,7 +58,7 @@ eon.m = {
 
     self.pubnub = PUBNUB || false;
 
-    self.markers = [];
+    self.markers = {};
 
     if(!options.id) {
       return console.error('You need to set an ID for your Mapbox element.');
@@ -72,33 +72,38 @@ eon.m = {
 
     self.update = function (seed, animate) {
 
-      var i = 0;
-      while(i < seed.length) {
+      for(var key in seed) {
 
-        if(typeof self.markers[i] == 'undefined') {
+        if(!self.markers.hasOwnProperty(key)) {
 
-          self.markers[i] = L.marker(seed[i].latlng);
-          self.markers[i].addTo(self.map);
+          if(seed[key].hasOwnProperty('marker')) {
+
+            for(var k in seed[key].marker) {
+              if(k == "icon") {
+                seed[key].marker[k] = new L.Icon.Default(seed[key].marker[k]);
+              }
+            }
+
+            self.markers[key]= L.marker(seed[key].latlng, seed[key].marker);
+          } else {
+
+            self.markers[key] = L.marker(seed[key].latlng, {
+              icon: new L.Icon({
+                iconUrl: 'https://news.ycombinator.com/y18.gif'
+              })
+            });
+          }
+          self.markers[key].addTo(self.map);
+
 
         } else {
 
           if(animate) {
-            self.animate(i, seed[i].latlng);
+            self.animate(key, seed[key].latlng);
           } else {
-            self.updateMarker(i, seed[i].latlng);
+            self.updateMarker(key, seed[key].latlng);
           }
 
-        }
-
-        if(typeof seed[i].options !== 'undefined') {
-
-          for(var j in seed[i].options) {
-
-            if(j == 'icon') {
-              self.markers[i].setIcon(L.mapbox.marker.icon(seed[i].options[j]));
-            }
-
-          }
         }
 
         i++;
@@ -128,8 +133,7 @@ eon.m = {
 
     self.refresh = function() {
 
-      var index = 0;
-      while(index < self.markers.length) {
+      for(var index in self.markers) {
 
         if(typeof self.animations[index] !== 'undefined') {
 
