@@ -16,7 +16,9 @@ eon.m = {
 
       pubnub.subscribe({
         channel: channel,
-        connect: connect,
+        connect: function(err, data){
+          // console.log(err, data)
+        },
         message: function(message, env, channel) {
           eon.m.message(message, env, channel);
         }
@@ -95,7 +97,9 @@ eon.m = {
     options.connect = options.connect || function(){};
     options.rotate = options.rotate || false;
 
-    self.pubnub = PUBNUB || false;
+    self.pubnub = PUBNUB.init({
+      subscribe_key: options.subscribe_key
+    });
 
     self.markers = {};
 
@@ -212,10 +216,6 @@ eon.m = {
 
     };
 
-    self.pubnub.init({
-      subscribe_key: options.subscribe_key
-    });
-
     eon.m.subscribe(self.pubnub, options.channel, false, function(message, env, channel) {
 
       options.message(message, env, channel);
@@ -229,8 +229,6 @@ eon.m = {
         channel: options.channel,
         count: 1,
         callback: function(m) {
-
-          console.log(m)
 
           if(m[0].length) {
             self.update(m[0][0], true);
