@@ -49,6 +49,69 @@ eon.m = {
 
     L.mapbox.accessToken = options.mb_token;
 
+    var geo = {
+        /**
+         * Calculate the bearing between two positions as a value from 0-360
+         *
+         * @param lat1 - The latitude of the first position
+         * @param lng1 - The longitude of the first position
+         * @param lat2 - The latitude of the second position
+         * @param lng2 - The longitude of the second position
+         *
+         * @return int - The bearing between 0 and 360
+         */
+        bearing : function (lat1,lng1,lat2,lng2) {
+            var dLon = this._toRad(lng2-lng1);
+            var y = Math.sin(dLon) * Math.cos(this._toRad(lat2));
+            var x = Math.cos(this._toRad(lat1))*Math.sin(this._toRad(lat2)) - Math.sin(this._toRad(lat1))*Math.cos(this._toRad(lat2))*Math.cos(dLon);
+            var brng = this._toDeg(Math.atan2(y, x));
+            return ((brng + 360) % 360);
+        },
+
+       /**
+         * Since not all browsers implement this we have our own utility that will
+         * convert from degrees into radians
+         *
+         * @param deg - The degrees to be converted into radians
+         * @return radians
+         */
+        _toRad : function(deg) {
+             return deg * Math.PI / 180;
+        },
+
+        /**
+         * Since not all browsers implement this we have our own utility that will
+         * convert from radians into degrees
+         *
+         * @param rad - The radians to be converted into degrees
+         * @return degrees
+         */
+        _toDeg : function(rad) {
+            return rad * 180 / Math.PI;
+        },
+    };
+
+    L.RotatedMarker = L.Marker.extend({
+      options: { angle: 0 },
+      _setPos: function(pos) {
+        L.Marker.prototype._setPos.call(this, pos);
+        if (L.DomUtil.TRANSFORM) {
+          // use the CSS transform rule if available
+          this._icon.style[L.DomUtil.TRANSFORM] += ' rotate(' + this.options.angle + 'deg)';
+        } else if (L.Browser.ie) {
+          // fallback for IE6, IE7, IE8
+          var rad = this.options.angle * L.LatLng.DEG_TO_RAD,
+          costheta = Math.cos(rad),
+          sintheta = Math.sin(rad);
+          this._icon.style.filter += ' progid:DXImageTransform.Microsoft.Matrix(sizingMethod=\'auto expand\', M11=' +
+            costheta + ', M12=' + (-sintheta) + ', M21=' + sintheta + ', M22=' + costheta + ')';
+        }
+      }
+    });
+    L.rotatedMarker = function(pos, options) {
+        return new L.RotatedMarker(pos, options);
+    };
+
     options.id = options.id || false;
     options.channel = options.channel || false;
     options.subscribe_key = options.subscribe_key || eon.subscribe_key || 'demo';
@@ -85,7 +148,7 @@ eon.m = {
               }
             }
 
-            self.markers[key]= L.marker(seed[key].latlng, seed[key].options);
+            self.markers[key]= L.rotatedMarker(seed[key].latlng, seed[key].options);
 
           } else {
 
@@ -123,8 +186,10 @@ eon.m = {
 
     self.animate = function (index, destination) {
 
+      var startlatlng = self.markers[index].getLatLng();
+
       self.animations[index] = {
-        start: self.markers[index].getLatLng(),
+        start: startlatlng,
         dest: destination,
         time: new Date().getTime(),
         length: new Date().getTime() - self.lastUpdate
@@ -153,6 +218,8 @@ eon.m = {
           var nextStep = [lat, lng];
 
           self.updateMarker(index, nextStep);
+
+          self.markers[index].options.angle = geo.bearing(position.lat, position.lng, lat, lng);
 
         }
 
