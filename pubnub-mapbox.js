@@ -76,22 +76,23 @@ eon.m = {
 
         if(!self.markers.hasOwnProperty(key)) {
 
-          if(seed[key].hasOwnProperty('marker')) {
+          if(seed[key].hasOwnProperty('options')) {
 
-            for(var k in seed[key].marker) {
+            // convert objects into L objects
+            for(var k in seed[key].options) {
               if(k == "icon") {
-                seed[key].marker[k] = new L.Icon.Default(seed[key].marker[k]);
+                seed[key].options[k] = new L.Icon(seed[key].options[k]);
               }
             }
 
-            self.markers[key]= L.marker(seed[key].latlng, seed[key].marker);
+            self.markers[key]= L.marker(seed[key].latlng, seed[key].options);
+
           } else {
 
             self.markers[key] = L.marker(seed[key].latlng, {
-              icon: new L.Icon({
-                iconUrl: 'https://news.ycombinator.com/y18.gif'
-              })
+              icon: new L.Icon.Default()
             });
+
           }
           self.markers[key].addTo(self.map);
 
