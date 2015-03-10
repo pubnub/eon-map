@@ -50,45 +50,19 @@ eon.m = {
     L.mapbox.accessToken = options.mb_token;
 
     var geo = {
-        /**
-         * Calculate the bearing between two positions as a value from 0-360
-         *
-         * @param lat1 - The latitude of the first position
-         * @param lng1 - The longitude of the first position
-         * @param lat2 - The latitude of the second position
-         * @param lng2 - The longitude of the second position
-         *
-         * @return int - The bearing between 0 and 360
-         */
-        bearing : function (lat1,lng1,lat2,lng2) {
-            var dLon = this._toRad(lng2-lng1);
-            var y = Math.sin(dLon) * Math.cos(this._toRad(lat2));
-            var x = Math.cos(this._toRad(lat1))*Math.sin(this._toRad(lat2)) - Math.sin(this._toRad(lat1))*Math.cos(this._toRad(lat2))*Math.cos(dLon);
-            var brng = this._toDeg(Math.atan2(y, x));
-            return ((brng + 360) % 360);
-        },
-
-       /**
-         * Since not all browsers implement this we have our own utility that will
-         * convert from degrees into radians
-         *
-         * @param deg - The degrees to be converted into radians
-         * @return radians
-         */
-        _toRad : function(deg) {
-             return deg * Math.PI / 180;
-        },
-
-        /**
-         * Since not all browsers implement this we have our own utility that will
-         * convert from radians into degrees
-         *
-         * @param rad - The radians to be converted into degrees
-         * @return degrees
-         */
-        _toDeg : function(rad) {
-            return rad * 180 / Math.PI;
-        },
+      bearing : function (lat1,lng1,lat2,lng2) {
+        var dLon = this._toRad(lng2-lng1);
+        var y = Math.sin(dLon) * Math.cos(this._toRad(lat2));
+        var x = Math.cos(this._toRad(lat1))*Math.sin(this._toRad(lat2)) - Math.sin(this._toRad(lat1))*Math.cos(this._toRad(lat2))*Math.cos(dLon);
+        var brng = this._toDeg(Math.atan2(y, x));
+        return ((brng + 360) % 360);
+      },
+      _toRad : function(deg) {
+         return deg * Math.PI / 180;
+      },
+      _toDeg : function(rad) {
+        return rad * 180 / Math.PI;
+      }
     };
 
     L.RotatedMarker = L.Marker.extend({
@@ -108,6 +82,7 @@ eon.m = {
         }
       }
     });
+
     L.rotatedMarker = function(pos, options) {
         return new L.RotatedMarker(pos, options);
     };
@@ -118,6 +93,7 @@ eon.m = {
     options.history = options.history || false;
     options.message = options.message || function(){};
     options.connect = options.connect || function(){};
+    options.rotate = options.rotate || false;
 
     self.pubnub = PUBNUB || false;
 
@@ -132,6 +108,11 @@ eon.m = {
     self.refreshRate = options.refreshRate || 10;
 
     self.lastUpdate = new Date().getTime();
+
+    self.markerType = L.marker;
+    if(options.rotate) {
+      self.markerType = L.rotatedMarker;
+    }
 
     self.update = function (seed, animate) {
 
@@ -148,11 +129,11 @@ eon.m = {
               }
             }
 
-            self.markers[key]= L.rotatedMarker(seed[key].latlng, seed[key].options);
+            self.markers[key]= self.markerType(seed[key].latlng, seed[key].options);
 
           } else {
 
-            self.markers[key] = L.marker(seed[key].latlng, {
+            self.markers[key] = self.markerType(seed[key].latlng, {
               icon: new L.Icon.Default()
             });
 
@@ -219,7 +200,9 @@ eon.m = {
 
           self.updateMarker(index, nextStep);
 
-          self.markers[index].options.angle = geo.bearing(position.lat, position.lng, lat, lng);
+          if(options.rotate) {
+            self.markers[index].options.angle = geo.bearing(position.lat, position.lng, lat, lng);
+          }
 
         }
 
@@ -243,13 +226,18 @@ eon.m = {
     if(options.history) {
 
       self.pubnub.history({
-        channel: channel,
+        channel: options.channel,
         count: 1,
         callback: function(m) {
-          if(m.length[0]) {
+
+          console.log(m)
+
+          if(m[0].length) {
             self.update(m[0][0], true);
           }
+
           options.connect();
+
         }
      });
 
