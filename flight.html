@@ -27,13 +27,36 @@
   <body>
     <div id='map'></div>
     <script>
+
+
+      L.RotatedMarker = L.Marker.extend({
+        options: { angle: 0 },
+        _setPos: function(pos) {
+          L.Marker.prototype._setPos.call(this, pos);
+          if (L.DomUtil.TRANSFORM) {
+            // use the CSS transform rule if available
+            this._icon.style[L.DomUtil.TRANSFORM] += ' rotate(' + this.options.angle + 'deg)';
+          } else if (L.Browser.ie) {
+            // fallback for IE6, IE7, IE8
+            var rad = this.options.angle * L.LatLng.DEG_TO_RAD,
+            costheta = Math.cos(rad),
+            sintheta = Math.sin(rad);
+            this._icon.style.filter += ' progid:DXImageTransform.Microsoft.Matrix(sizingMethod=\'auto expand\', M11=' +
+              costheta + ', M12=' + (-sintheta) + ', M21=' + sintheta + ', M22=' + costheta + ')';
+          }
+        }
+      });
+
       var map = eon.map({
         id: 'map',
         mb_id: 'ianjennings.lec06po7',
         mb_token: 'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg',
         channel: 'sfo-flight-data',
         rotate: true,
-        history: true
+        history: true,
+        marker: function (latlng, options) {
+          return new L.RotatedMarker(latlng, options);
+        }
       });
     </script>
   </body>
