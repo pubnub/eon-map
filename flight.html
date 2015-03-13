@@ -44,6 +44,7 @@
             this._icon.style.filter += ' progid:DXImageTransform.Microsoft.Matrix(sizingMethod=\'auto expand\', M11=' +
               costheta + ', M12=' + (-sintheta) + ', M21=' + sintheta + ', M22=' + costheta + ')';
           }
+
         }
       });
 
@@ -54,8 +55,40 @@
         channel: 'sfo-flight-data',
         rotate: true,
         history: true,
-        marker: function (latlng, options) {
-          return new L.RotatedMarker(latlng, options);
+        marker: function (latlng, data) {
+
+          var marker = new L.RotatedMarker(latlng, {
+            icon: L.icon({
+              iconUrl: 'https://www.mapbox.com/maki/renders/airport-24@2x.png',
+              iconSize: [24, 24]
+            })
+          });
+
+          var popup = '';
+          if(data[13]) {
+            popup = 'Flight <strong>' + data[13] + '</strong>';
+          }
+          if(data[11]) {
+            if(!popup.length) {
+              popup = 'Flight from ' + data[11];
+            } else {
+              popup += ' from ' + data[11];
+            }
+          }
+          if(data[12]) {
+            if(!popup.length) {
+              popup = 'Flight to ' + data[11];
+            } else {
+              popup += ' to ' + data[11];
+            }
+          }
+          if(!popup.length) {
+            var popup = 'No data available';
+          }
+
+          marker.bindPopup(popup);
+
+          return marker;
         }
       });
     </script>

@@ -98,26 +98,10 @@ eon.m = {
 
         if(!self.markers.hasOwnProperty(key)) {
 
-          if(seed[key].hasOwnProperty('options')) {
+          var data = seed[key].data || {};
 
-            // convert objects into L objects
-            for(var k in seed[key].options) {
-              if(k == "icon") {
-                seed[key].options[k] = new L.Icon(seed[key].options[k]);
-              }
-            }
-
-            self.markers[key]= options.marker(seed[key].latlng, seed[key].options);
-
-          } else {
-
-            self.markers[key] = options.marker(seed[key].latlng, {
-              icon: new L.Icon.Default()
-            });
-
-          }
+          self.markers[key]= options.marker(seed[key].latlng, seed[key].data);
           self.markers[key].addTo(self.map);
-
 
         } else {
 
