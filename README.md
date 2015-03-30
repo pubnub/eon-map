@@ -142,7 +142,7 @@ pnmap.follow({
 
 You can supply a custom Mapbox marker object with custom tooltips by extening the ```L.marker``` object provided by mapbox. Learn more about custom markers [here](https://www.mapbox.com/mapbox.js/example/v1.0.0/custom-marker/). 
 
-```
+```html
 <div id='map'></div>
 <script>
   L.RotatedMarker = L.Marker.extend({
@@ -189,7 +189,7 @@ You can supply a custom Mapbox marker object with custom tooltips by extening th
 ```
 ## Kitchen Sink
 
-Check out the ```extra.html``` demo for an example of tracking multiple markers on a graph.
+Check out the ```bus.html``` and ```flight.html``` for full featured examples.
 
 ## Customizing with Mapbox
 
