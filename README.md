@@ -6,7 +6,11 @@ Real-time location tracking.
 
 ## Quickstart
 
-```js
+```html
+<script type="text/javascript" src="http://pubnub.github.io/eon/lib/eon-chart.js"></script>
+<link type="text/css" rel="stylesheet" href="http://pubnub.github.io/eon/lib/eon.css" />
+<div id='map'></div>
+<script type="text/javascript">
 eon.map({
   id: 'map',
   mb_token: 'mapbox api token',
@@ -16,6 +20,7 @@ eon.map({
   history: false,
   connect: connect,
 });
+</script>
 ```
 
 ### Init
@@ -33,17 +38,7 @@ Parameter | Value | Default
 
 ## Simple Example
 
-Include ```mapbox.css```, ```mapbox.js```, ```pubnub.js```, and ```pubnub_mapbox.js```.
-
-```js
-<link href="./lib/mapbox.css" rel="stylesheet" />
-<script src="./lib/mapbox.js"></script>
-
-<script src="./bower_components/pubnub/web/pubnub.min.js"></script>
-<script src="./pubnub-mapbox.js"></script>
-```
-
-Then, call ```eon.map({})```. Check out the table of options above for more information.
+Call ```eon.map({})```. Check out the table of options above for more information.
 
 ```js
 var channel = 'pubnub-mapbox';
