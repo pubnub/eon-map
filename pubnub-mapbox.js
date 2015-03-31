@@ -121,8 +121,20 @@ eon.m = {
 
     };
 
+    var isNumber = function(n) {
+      return !isNaN(parseFloat(n)) && isFinite(n);
+    }
+
     self.updateMarker = function (index, point) {
-      self.markers[index].setLatLng(point);
+
+      if(point && point.length > 1) {
+
+        if(isNumber(point[0]) && isNumber(point[1])) {
+          self.markers[index].setLatLng(point);
+        }
+
+      }
+
     };
 
     self.animations = {};
