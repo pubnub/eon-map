@@ -12,9 +12,7 @@ eon.map({
   mb_token: 'mapbox api token',
   mb_id: 'mapbox map id',
   subscribe_key: 'demo',
-  channel: 'my map channel',
-  history: false,
-  connect: connect,
+  channel: 'my map channel'
 });
 ```
 
@@ -28,6 +26,7 @@ Parameter | Value | Default
 | subscribe_key | Your PubNub subscribe_key | ```demo```
 | history | Use PubNub history call to retrieve last message. This will display points at their last known location. Requires [PubNub storage](http://www.pubnub.com/how-it-works/storage-and-playback/) to be enabled. | ```false```
 | connect | This function fires once data has been retrieved from PubNub.  | ```function(){}```
+| pubnub | An instance of the PUBNUB javascript global. This is required when using your own keys. See the ```subscribe_key``` example. | ```false```
 
 ## Simple Example
 
