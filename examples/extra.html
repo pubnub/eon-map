@@ -43,6 +43,9 @@
         subscribe_key: 'demo',
         channel: channel,
         connect: connect,
+        options: {
+          zoomAnimation: false,
+        },
         message: function (data) {
           map.setView(data[3].latlng, 13);
         }

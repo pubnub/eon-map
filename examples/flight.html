@@ -53,6 +53,9 @@
         channel: 'sfo-flight-data',
         rotate: true,
         history: true,
+        options: {
+          zoomAnimation: false,
+        },
         marker: function (latlng, data) {
 
           var marker = new L.RotatedMarker(latlng, {
