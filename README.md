@@ -124,13 +124,7 @@ You can tell the map to follow a point to it's new location whenever data is rec
 var map = eon.map({
   id: 'map',
   mb_id: 'ianjennings.l896mh2e',
-  mb_token: 'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg',
-  subscribe_key: 'demo',
-  channel: channel,
-  connect: connect,
-  options: {
-    zoomAnimation: false,
-  },
+  //...
   message: function (data) {
     map.setView(data[3].latlng, 13);
   }
