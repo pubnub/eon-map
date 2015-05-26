@@ -118,23 +118,28 @@ http://www.pubnub.com/docs
 
 ## Following a Point
 
-You can tell the map to follow a point to it's new location whenever data is received. 
-
-Parameter | Value | Default
-| :------------ |:---------------| -----:|
-| index | Index of points provided to Mapbox | ```0```
-| zoom | Mapbox zoom level | ```13```
+You can tell the map to follow a point to it's new location whenever data is received by supplying a ```message``` callback.
 
 ```js
-pnmap.follow({
-  index: 3,
-  zoom: 13
+var map = eon.map({
+  id: 'map',
+  mb_id: 'ianjennings.l896mh2e',
+  mb_token: 'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg',
+  subscribe_key: 'demo',
+  channel: channel,
+  connect: connect,
+  options: {
+    zoomAnimation: false,
+  },
+  message: function (data) {
+    map.setView(data[3].latlng, 13);
+  }
 });
 ```
 
-## Market Customization
+## Marker Customization
 
-You can supply a custom Mapbox marker object with custom tooltips by extening the ```L.marker``` object provided by mapbox. Learn more about custom markers [here](https://www.mapbox.com/mapbox.js/example/v1.0.0/custom-marker/). 
+You can supply a custom Mapbox marker object with custom tooltips by extening the ```L.marker``` object provided by mapbox. Learn more about custom markers [here](https://www.mapbox.com/mapbox.js/example/v1.0.0/custom-marker/).
 
 ```html
 <div id='map'></div>
