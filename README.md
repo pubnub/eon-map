@@ -4,6 +4,13 @@ Real-time location tracking.
 
 ![](http://i.imgur.com/25Zg5YB.gif)
 
+# Examples
+
+* [One Marker](http://pubnub.github.io/eon/examples/map/index.html)
+* [Multiple Markers + Follow Marker](http://pubnub.github.io/eon/examples/map/extra.html)
+* [Custom Marker Image + Rotation](http://pubnub.github.io/eon/examples/map/flight.html)
+* [Bus Tracking](http://pubnub.github.io/eon/examples/map/bus.html)
+
 ## Quickstart
 
 ```html
