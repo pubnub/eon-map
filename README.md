@@ -188,9 +188,6 @@ You can supply a custom Mapbox marker object with custom tooltips by extening th
 </script>
 ```
 
-## Distributed Systems
-
-The EON library compiles all messages at designated intervals. This means you can publish from multiple sources into one map. For example, you can map the individual locations of 3 phones by supplying the same channel to your PubNub publish requests. The [flight example](https://github.com/pubnub/eon-map/blob/master/examples/flight.html) works like this; not every flight is updated on every subscribe call.
 ## Kitchen Sink
 
 Check out the ```bus.html``` and ```flight.html``` for full featured examples.
@@ -200,3 +197,7 @@ Check out the ```bus.html``` and ```flight.html``` for full featured examples.
 The MapBox map object is returned by ```eon.mapbox``` and can be customized using the [Mapbox API](https://www.mapbox.com/mapbox.js/api/v3.1.5/). Also see the [Mapbox examples page](https://www.mapbox.com/mapbox.js/example/v1.0.0/).
 
 Also note that you can customize your map using Mapbox map editor. You can change the map background style, add static markers, etc. Visit [Mapbox](https://www.mapbox.com/) for your own API key.
+
+## Distributed Systems
+
+The EON library compiles all messages at designated intervals. This means you can publish from multiple sources into one map. For example, you can map the individual locations of 3 phones by supplying the same channel to your PubNub publish requests. The [flight example](https://github.com/pubnub/eon-map/blob/master/examples/flight.html) works like this; not every flight is updated on every subscribe call.
