@@ -1,15 +1,15 @@
-# PubNub + Mapbox
+# EON Maps
 
-Real-time location tracking. 
+Real-time location tracking powered by PubNub + Mapbox.
 
 ![](http://i.imgur.com/25Zg5YB.gif)
 
 # Examples
 
-* [One Marker](http://pubnub.github.io/eon/examples/map/index.html)
-* [Multiple Markers + Follow Marker](http://pubnub.github.io/eon/examples/map/extra.html)
-* [Custom Marker Image + Rotation](http://pubnub.github.io/eon/examples/map/flight.html)
-* [Bus Tracking](http://pubnub.github.io/eon/examples/map/bus.html)
+* [One Marker](http://pubnub.com/developers/eon/map/index/)
+* [Multiple Markers + Follow Marker](http://pubnub.com/developers/eon/map/extra/)
+* [Custom Marker Image + Rotation](http://pubnub.com/developers/eon/map/flight/)
+* [Bus Tracking](http://pubnub.com/developers/eon/map/bus/)
 
 ## Quickstart
 
@@ -200,4 +200,4 @@ Also note that you can customize your map using Mapbox map editor. You can chang
 
 ## Distributed Systems
 
-The EON library compiles all messages at designated intervals. This means you can publish from multiple sources into one map. For example, you can map the individual locations of 3 phones by supplying the same channel to your PubNub publish requests. The [flight example](https://github.com/pubnub/eon-map/blob/master/examples/flight.html) works like this; not every flight is updated on every subscribe call.
+The EON library compiles all messages at designated intervals. This means you can publish from multiple sources into one map. For example, you can map the individual locations of 3 phones by supplying the same channel to your PubNub publish requests. The [flight example](http://pubnub.com/developers/eon/map/flight/) works like this; not every flight is updated on every subscribe call.
