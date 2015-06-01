@@ -1,6 +1,6 @@
 # EON Maps
 
-Real-time location tracking powered by PubNub + Mapbox.
+Real-time location tracking powered by [PubNub](http://pubnub.com) and [MapBox](http://mapbox.com).
 
 ![](http://i.imgur.com/25Zg5YB.gif)
 
