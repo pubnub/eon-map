@@ -121,7 +121,7 @@ setInterval(function(){
 You probably want to publish data from the back-end instead. 
 Check out our docs for more info:
 
-http://www.pubnub.com/docs
+http://www.pubnub.com/documentation/
 
 ## Following a Point
 
