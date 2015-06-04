@@ -121,7 +121,7 @@ setInterval(function(){
 You probably want to publish data from the back-end instead. 
 Check out our docs for more info:
 
-http://www.pubnub.com/docs
+http://www.pubnub.com/documentation/
 
 ## Following a Point
 
@@ -187,6 +187,27 @@ You can supply a custom Mapbox marker object with custom tooltips by extening th
   });
 </script>
 ```
+
+## Configure using your own PubNub API Keys
+#### Using your own API Key with Eon Maps
+
+You can set the `pubnub` init parameter when using Eon Maps.  This allows you to configure PubNub client connections with extra security options such a `auth_key` and your `cipher_key`.  You should also set `secure: true` and `ssl: true` as well.
+
+```html
+<div id="map"></div>
+<script>
+  var pubnub  = PUBNUB({ subscribe_key : 'YOUR_SUBKEY_HERE', ssl : true });
+  var channel = 'my-map';
+  eon.map({
+    pubnub   : pubnub,  // < - - - here < - - - //
+    channel  : channel,
+    id       : 'map',
+    mb_id    : 'mapbox.streets',
+    mb_token : 'pk.ey31IjoiaWRtc3giLCJhIjoiZZ1zMGI2ZjBlNTMxZjk5YTEwNjM5WNJlOWI4MmJiZGIifQ.U1jMQo2QVeuUtt85oD7hkQ'
+  });
+</script>
+```
+
 
 ## Kitchen Sink
 
