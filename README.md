@@ -35,10 +35,10 @@ Parameter | Value | Default
 | id | The ID of the element where the map will be rendered. | ```undefined```
 | mb_token | Mapbox API Token. | ```undefined```
 | mb_id | Mapbox Map ID. | ```undefined```
-| transform | Method for changing the payload format of your stream. | ```function(m){}```
+| transform | Method for changing the payload format of your stream. See [example](https://github.com/pubnub/eon-map/blob/master/examples/transform.html) | ```function(m){}```
 | history | Use PubNub history call to retrieve last message. This will display points at their last known location. Requires [PubNub storage](http://www.pubnub.com/how-it-works/storage-and-playback/) to be enabled. | ```false```
 | pubnub | An instance of the PUBNUB javascript global. This is required when using your own keys. See the ```subscribe_key``` example. | ```false```
-| connect | A function to call when PubNub makes a connection. See [PubNub subscribe](http://www.pubnub.com/docs/javascript/api/reference.html#subscribe) | function(){} |
+| connect | A function to call when PubNub makes a connection. See [PubNub subscribe](http://www.pubnub.com/docs/javascript/api/reference.html#subscribe) | ```function(){}``` |
 | marker | A custom Mapbox marker object. Use this to change the marker icon, tooltip, etc. | L.maker |
 | rotate | Add bearing to markers in ```options.angle```. This won't have any effect unless you're using [a rotated marker type](https://www.mapbox.com/mapbox.js/example/v1.0.0/rotating-controlling-marker/). | ```false``` |
 
