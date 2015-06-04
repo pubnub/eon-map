@@ -16,9 +16,6 @@ eon.m = {
 
       pubnub.subscribe({
         channel: channel,
-        connect: function(err, data){
-          // console.log(err, data)
-        },
         message: function(message, env, channel) {
           eon.m.message(message, env, channel);
         }
@@ -114,8 +111,6 @@ eon.m = {
           }
 
         }
-
-        i++;
 
       }
 
