@@ -17,7 +17,7 @@ eon.m = {
       pubnub.subscribe({
         channel: channel,
         message: function(message, env, channel) {
-          eon.m.message(message, env, channel);
+          eon.m.message( pubnub.options.transform(message), env, channel );
         }
       });
 
@@ -70,8 +70,10 @@ eon.m = {
       error = "PubNub not found. See http://www.pubnub.com/docs/javascript/javascript-sdk.html#_where_do_i_get_the_code";
     }
 
+    self.pubnub.options = options;
     options.id = options.id || false;
     options.channel = options.channel || false;
+    options.transform = options.transform || function(m){return m};
     options.history = options.history || false;
     options.message = options.message || function(){};
     options.connect = options.connect || function(){};
