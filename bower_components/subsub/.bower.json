@@ -1,0 +1,14 @@
+{
+  "name": "subsub",
+  "homepage": "https://github.com/pubnub/subsub",
+  "_release": "a54ddab1a2",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "a54ddab1a22a0a3551191be638d9fe0ce718b211"
+  },
+  "_source": "git://github.com/pubnub/subsub.git",
+  "_target": "*",
+  "_originalSource": "subsub",
+  "_direct": true
+}

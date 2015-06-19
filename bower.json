@@ -1,6 +1,6 @@
 {
   "name": "eon-map",
-  "version": "0.2.6",
+  "version": "0.2.7",
   "homepage": "https://github.com/pubnub/eon-map",
   "authors": [
     "Ian Jennings <ian@meetjennings.com>"
@@ -30,6 +30,7 @@
     "tests"
   ],
   "dependencies": {
-    "pubnub": "~3.7.8"
+    "pubnub": "~3.7.8",
+    "subsub": "*"
   }
 }

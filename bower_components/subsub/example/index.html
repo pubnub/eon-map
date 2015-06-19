@@ -1,0 +1,37 @@
+<html>
+   <body>
+      <h1>PubNub SubSub</h1>
+      <p>View source to see a subsub example.</p>
+      <script src="http://cdn.pubnub.com/pubnub-3.7.10.min.js"></script>
+      <script src="../subsub.js"></script>
+      <script type="text/javascript">
+
+        var pubnub = PUBNUB({                          
+          publish_key: 'demo',
+          subscribe_key: 'demo'
+        });
+
+        subsub.subscribe(pubnub, 'subsub_chan', null, function(message, env, channel) {
+          console.log('subsub cb 1', message);
+        });
+
+        subsub.subscribe(pubnub, 'subsub_chan', null, function(message, env, channel) {
+          console.log('subsub cb 2', message);
+        });
+
+        subsub.subscribe(pubnub, 'subsub_chan', null, function(message, env, channel) {
+          console.log('subsub cb 3', message);
+        });
+
+        setInterval(function(){
+          
+          pubnub.publish({
+            channel: 'subsub_chan',
+            message: 'hello world'
+          });
+
+        }, 1000);
+
+      </script>
+   </body>
+</html>

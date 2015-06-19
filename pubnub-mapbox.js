@@ -1,31 +1,6 @@
 var eon = eon || {};
+eon.subsub = eon.subsub || subsub;
 eon.m = {
-  observers: {},
-  message: function(message, env, channel) {
-
-    for(var i in eon.m.observers[channel]) {
-      eon.m.observers[channel][i](message, env, channel);
-    }
-
-  },
-  subscribe: function(pubnub, channel, connect, callback) {
-
-    if(typeof(eon.m.observers[channel]) == "undefined") {
-
-      eon.m.observers[channel] = [callback];
-
-      pubnub.subscribe({
-        channel: channel,
-        message: function(message, env, channel) {
-          eon.m.message(message, env, channel );
-        }
-      });
-
-    } else {
-      eon.m.observers[channel].push(callback);
-    }
-
-  },
   create: function (options) {
 
     if(typeof(PUBNUB) == "undefined" && console) {
@@ -184,7 +159,7 @@ eon.m = {
 
     };
 
-    eon.m.subscribe(self.pubnub, options.channel, false, function(message, env, channel) {
+    subsub.subscribe(self.pubnub, options.channel, false, function(message, env, channel) {
 
       message = options.transform(message);
 
