@@ -1,6 +1,6 @@
-var eon = eon || {};
-eon.subsub = eon.subsub || subsub;
-eon.m = {
+window.eon = window.eon || {};
+window.eon.subsub = subsub;
+window.eon.m = {
   create: function (options) {
 
     options.debug = options.debug || false;
@@ -242,6 +242,6 @@ eon.m = {
 
   }
 };
-eon.map = function(o) {
-  return new eon.m.create(o);
+window.eon.map = function(o) {
+  return new window.eon.m.create(o);
 };
