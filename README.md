@@ -41,6 +41,7 @@ Parameter | Value | Default
 | connect | A function to call when PubNub makes a connection. See [PubNub subscribe](http://www.pubnub.com/docs/javascript/api/reference.html#subscribe) | ```function(){}``` |
 | marker | A custom Mapbox marker object. Use this to change the marker icon, tooltip, etc. | L.marker |
 | rotate | Add bearing to markers in ```options.angle```. This won't have any effect unless you're using [a rotated marker type](https://www.mapbox.com/mapbox.js/example/v1.0.0/rotating-controlling-marker/). | ```false``` |
+| options | An options object supplied to the [MapBox Maps constructor](https://www.mapbox.com/mapbox.js/api/v2.4.0/l-mapbox-map/). | {} |
 
 ## Simple Example
 
