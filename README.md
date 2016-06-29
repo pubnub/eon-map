@@ -18,7 +18,13 @@ Real-time location tracking powered by [PubNub](http://pubnub.com) and [MapBox](
 <link type="text/css" rel="stylesheet" href="http://pubnub.github.io/eon/lib/eon.css" />
 <div id='map'></div>
 <script type="text/javascript">
-eon.map({
+var pn = PUBNUB.init({
+  publish_key:   'demo', // replace with your own pub-key
+  subscribe_key: 'demo'  // replace with your own sub-key
+});
+
+var map = eon.map({
+  pubnub: pn,
   id: 'map',
   mb_token: 'mapbox api token',
   mb_id: 'mapbox map id',
@@ -50,7 +56,14 @@ Call ```eon.map({})```. Check out the table of options above for more informatio
 ```js
 var channel = 'pubnub-mapbox';
 
-eon.map({
+var pn = PUBNUB.init({
+  publish_key:   'demo', // replace with your own pub-key
+  subscribe_key: 'demo'  // replace with your own sub-key
+});
+
+var map = eon.map({
+  pubnub: pn,
+  eon.map({
   id: 'map',
   mb_token: 'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg',
   mb_id: 'ianjennings.l896mh2e',
@@ -97,11 +110,11 @@ var point = {
 };
 
 var pn = PUBNUB.init({
-  publish_key: 'demo'
+  publish_key:   'demo', // replace with your own pub-key
+  subscribe_key: 'demo'  // replace with your own sub-key
 });
 
 setInterval(function(){
-
   var new_point = JSON.parse(JSON.stringify(point));
 
   new_point.latlng = [
@@ -129,7 +142,13 @@ http://www.pubnub.com/documentation/
 You can tell the map to follow a point to it's new location whenever data is received by supplying a ```message``` callback.
 
 ```js
+var pn = PUBNUB.init({
+  publish_key:   'demo', // replace with your own pub-key
+  subscribe_key: 'demo'  // replace with your own sub-key
+});
+
 var map = eon.map({
+  pubnub: pn,
   id: 'map',
   mb_id: 'ianjennings.l896mh2e',
   //...
@@ -164,7 +183,13 @@ You can supply a custom Mapbox marker object with custom tooltips by extening th
     }
   });
 
+  var pn = PUBNUB.init({
+    publish_key:   'demo', // replace with your own pub-key
+    subscribe_key: 'demo'  // replace with your own sub-key
+  });
+
   var map = eon.map({
+    pubnub: pn,
     id: 'map',
     mb_id: 'ianjennings.lec77m70',
     mb_token: 'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg',
@@ -197,10 +222,10 @@ You can set the `pubnub` init parameter when using Eon Maps.  This allows you to
 ```html
 <div id="map"></div>
 <script>
-  var pubnub  = PUBNUB({ subscribe_key : 'YOUR_SUBKEY_HERE', ssl : true });
+  var pn  = PUBNUB({ subscribe_key : 'YOUR_SUBKEY_HERE', ssl : true });
   var channel = 'my-map';
-  eon.map({
-    pubnub   : pubnub,  // < - - - here < - - - //
+  var map = eon.map({
+    pubnub   : pn,  // < - - - here < - - - //
     channel  : channel,
     id       : 'map',
     mb_id    : 'mapbox.streets',
