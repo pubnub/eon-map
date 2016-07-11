@@ -32,9 +32,12 @@
     </script>
     <script>
       // this stream is really slow, you may need to wait to see markers appear
+
       var pubnub = PUBNUB.init({
-        subscribe_key: 'sub-c-b1cadece-f0fa-11e3-928e-02ee2ddab7fe'
+        publish_key: 'pub-c-6dbe7bfd-6408-430a-add4-85cdfe856b47',
+        subscribe_key: 'sub-c-2a73818c-d2d3-11e3-9244-02ee2ddab7fe'
       });
+
       eon.map({
         pubnub: pubnub,
         id: 'map',
