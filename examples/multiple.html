@@ -44,7 +44,7 @@
         return random;
       }
 
-      var channel = 'pubnub-mapbox-multiple-history';
+      var channel = 'pubnub-mapbox-' + getNonZeroRandomNumber();
 
       var map = eon.map({
         pubnub: pn,
@@ -53,7 +53,6 @@
         mb_token: 'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg',
         channel: channel,
         connect: connect,
-        history: true,
         message: function (data) {
           map.setView(data[3].latlng, 13);
         }
