@@ -205,12 +205,15 @@ window.eon.m = {
       },
       message: function(m) {
         
-        clog('PubNub:', 'Got Message');
+        if(m.channel == options.channel) {
+          
+          clog('PubNub:', 'Got Message');
 
-        message = options.transform(m.message);
+          message = options.transform(m.message);
 
-        options.message(message, m.timetoken, m.channel);
-        self.update(message, true);
+          options.message(message, m.timetoken, m.channel);
+          self.update(message, true);
+        }
 
       }
     });
