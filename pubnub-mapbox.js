@@ -51,7 +51,7 @@ window.eon.m = {
       }
     };
 
-    self.pubnub = options.pubnub || PUBNUB || false;
+    self.pubnub = options.pubnub || PubNub || false;
 
     if(!self.pubnub) {
       error = "PubNub not found. See http://www.pubnub.com/docs/javascript/javascript-sdk.html#_where_do_i_get_the_code";
