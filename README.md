@@ -18,7 +18,7 @@ Real-time location tracking powered by [PubNub](http://pubnub.com) and [MapBox](
 <link type="text/css" rel="stylesheet" href="http://pubnub.github.io/eon/lib/eon.css" />
 <div id='map'></div>
 <script type="text/javascript">
-var pn = PUBNUB.init({
+var pn = new PubNub({
   publishKey:   'demo', // replace with your own pub-key
   subscribeKey: 'demo'  // replace with your own sub-key
 });
@@ -56,7 +56,7 @@ Call ```eon.map({})```. Check out the table of options above for more informatio
 ```js
 var channel = 'pubnub-mapbox';
 
-var pn = PUBNUB.init({
+var pn = new PubNub({
   publishKey:   'demo', // replace with your own pub-key
   subscribeKey: 'demo'  // replace with your own sub-key
 });
@@ -109,7 +109,7 @@ var point = {
   latlng: [37.370375, -97.756138]
 };
 
-var pn = PUBNUB.init({
+var pn = new PubNub({
   publishKey:   'demo', // replace with your own pub-key
   subscribeKey: 'demo'  // replace with your own sub-key
 });
@@ -142,7 +142,7 @@ http://www.pubnub.com/documentation/
 You can tell the map to follow a point to it's new location whenever data is received by supplying a ```message``` callback.
 
 ```js
-var pn = PUBNUB.init({
+var pn = new PubNub({
   publishKey:   'demo', // replace with your own pub-key
   subscribeKey: 'demo'  // replace with your own sub-key
 });
@@ -183,7 +183,7 @@ You can supply a custom Mapbox marker object with custom tooltips by extening th
     }
   });
 
-  var pn = PUBNUB.init({
+  var pn = new PubNub({
     publishKey:   'demo', // replace with your own pub-key
     subscribeKey: 'demo'  // replace with your own sub-key
   });
