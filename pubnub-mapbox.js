@@ -1,5 +1,4 @@
 window.eon = window.eon || {};
-window.eon.subsub = subsub;
 window.eon.m = {
   create: function (options) {
 
@@ -16,7 +15,7 @@ window.eon.m = {
       }
     };
 
-    if(typeof(PUBNUB) == "undefined" && console) {
+    if(typeof(options.pubnub) == "undefined" && console) {
       return console.error("PubNub not found. See http://www.pubnub.com/docs/javascript/javascript-sdk.html#_where_do_i_get_the_code");
     }
 
@@ -74,7 +73,7 @@ window.eon.m = {
 
     if(!options.id) {
       return console.error('You need to set an ID for your Mapbox element.');
-    }
+      }
 
     self.map = L.mapbox.map(options.id, options.mb_id, options.options);
 
@@ -85,6 +84,8 @@ window.eon.m = {
     self.update = function (seed, animate) {
       
       clog('Markers:', 'Updating');
+
+      console.log(seed)
 
       for(var key in seed) {
 
@@ -184,16 +185,6 @@ window.eon.m = {
 
             self.updateMarker(index, s.nextStep);
 
-            /*
-            Easing function
-            s.newPos = {
-              lat: s.nextStep[0],
-              lng: s.nextStep[1]
-            };
-
-            self.animations[index].start = s.newPos;
-            */
-
             if(options.rotate) {
               self.markers[index].options.angle = geo.bearing(s.position.lat, s.position.lng, s.lat, s.lng);
             }
@@ -208,33 +199,46 @@ window.eon.m = {
 
     };
 
-    subsub.subscribe(self.pubnub, options.channel, false, function(message, env, channel) {
+    self.pubnub.addListener({
+      status: function(statusEvent) {
+        if (statusEvent.category === "PNConnectedCategory") {
+          options.connect();
+        }
+      },
+      message: function(m) {
+        
+        clog('PubNub:', 'Got Message');
 
-      clog('PubNub:', 'Got Message');
+        message = options.transform(m.message);
 
-      message = options.transform(message);
+        options.message(message, m.timetoken, channel);
+        self.update(message, true);
 
-      options.message(message, env, channel);
-      self.update(message, true);
+      }
+    });
 
+    self.pubnub.subscribe({
+      channels: [options.channel]
     });
 
     if(options.history) {
 
       self.pubnub.history({
-        channel: options.channel,
-        callback: function(m, env, channel) {
+        channel: options.channel
+      }, function(status, payload) {
 
-          for(var a in m[0]) {
-            m[0][a] = options.transform(m[0][a]);
-            options.message(m[0][a], env, channel);
-            self.update(m[0][a], true);
-          }
+        console.log(status, payload)
 
-          options.connect();
-
+        for(var a in payload.messages) {
+          payload.messages[a].entry = options.transform(payload.messages[a].entry);
+          options.message(payload.messages[a].entry, payload.messages[a].timetoken, channel);
+          self.update(payload.messages[a].entry, true);
         }
-     });
+
+        options.connect();
+
+      }
+     );
 
     } else {
       options.connect();

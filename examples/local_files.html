@@ -17,8 +17,7 @@
       }
     </style>
 
-    <script type="text/javascript" src="../bower_components/pubnub/web/pubnub.min.js"></script>
-    <script type="text/javascript" src="../bower_components/subsub/subsub.js"></script>
+    <script type="text/javascript" src="../bower_components/pubnub/dist/web/pubnub.js"></script>
     <script type="text/javascript" src="../lib/mapbox.js"></script>
     <script type="text/javascript" src="../pubnub-mapbox.js"></script>
 
@@ -35,14 +34,16 @@
       }
     </script>
     <script>
-      var pubnub = PUBNUB.init({
-        publish_key: 'pub-c-6dbe7bfd-6408-430a-add4-85cdfe856b47',
-        subscribe_key: 'sub-c-2a73818c-d2d3-11e3-9244-02ee2ddab7fe'
+      
+      var pubnub = new PubNub({
+        publishKey: 'pub-c-6dbe7bfd-6408-430a-add4-85cdfe856b47',
+        subscribeKey: 'sub-c-2a73818c-d2d3-11e3-9244-02ee2ddab7fe'
       });
 
       var channel = 'pubnub-mapbox' + getNonZeroRandomNumber();
 
       eon.map({
+        debug: true,
         pubnub: pubnub,
         id: 'map',
         mb_token: 'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg',
@@ -51,7 +52,7 @@
         connect: connect,
         options: {
           zoomAnimation: false,
-        },
+        }
       });
 
       function connect() {
@@ -65,8 +66,8 @@
           var new_point = JSON.parse(JSON.stringify(point));
 
           new_point.latlng = [
-            new_point.latlng[0] + (getNonZeroRandomNumber() * 0.1),
-            new_point.latlng[1] + (getNonZeroRandomNumber() * 0.2)
+            new_point.latlng[0] + (getNonZeroRandomNumber() * 0.05),
+            new_point.latlng[1] + (getNonZeroRandomNumber() * 0.1)
           ];
 
           pubnub.publish({

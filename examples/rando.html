@@ -22,7 +22,7 @@
     <script type="text/javascript" src="../pubnub-mapbox.js"></script>
 
     <link type="text/css" rel="stylesheet" href="http://pubnub.github.io/eon/v/eon/0.0.10/eon.css"/>
-
+    
   </head>
   <body>
     <div id='map'></div>
@@ -35,7 +35,6 @@
     </script>
     <script>
       
-      
       var pubnub = new PubNub({
         publishKey: 'pub-c-6dbe7bfd-6408-430a-add4-85cdfe856b47',
         subscribeKey: 'sub-c-2a73818c-d2d3-11e3-9244-02ee2ddab7fe'
@@ -45,7 +44,6 @@
 
       eon.map({
         pubnub: pubnub,
-        debug: false,
         id: 'map',
         mb_token: 'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg',
         mb_id: 'ianjennings.l896mh2e',
@@ -67,41 +65,20 @@
           var new_point = JSON.parse(JSON.stringify(point));
 
           new_point.latlng = [
-            new_point.latlng[0] + (getNonZeroRandomNumber() * 0.001),
-            new_point.latlng[1] + (getNonZeroRandomNumber() * 0.002)
+            new_point.latlng[0] + (getNonZeroRandomNumber() * 0.07),
+            new_point.latlng[1] + (getNonZeroRandomNumber() * 0.2)
           ];
+
+          var o = {};
+
+          o[Math.random()] = new_point
 
           pubnub.publish({
             channel: channel,
-            message: {
-              point_1: new_point
-            }
+            message: o
           });
 
-        }, 500);
-
-
-        setTimeout(function(){
-
-          setInterval(function(){
-
-            var new_point = JSON.parse(JSON.stringify(point));
-
-            new_point.latlng = [
-              new_point.latlng[0] + (getNonZeroRandomNumber() * 0.001),
-              new_point.latlng[1] + (getNonZeroRandomNumber() * 0.002)
-            ];
-
-            pubnub.publish({
-              channel: channel,
-              message: {
-                point_2: new_point
-              }
-            });
-
-          }, 500);
-
-        }, 1000);
+        }, 100);
 
       };
 

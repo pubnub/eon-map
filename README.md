@@ -19,8 +19,8 @@ Real-time location tracking powered by [PubNub](http://pubnub.com) and [MapBox](
 <div id='map'></div>
 <script type="text/javascript">
 var pn = PUBNUB.init({
-  publish_key:   'demo', // replace with your own pub-key
-  subscribe_key: 'demo'  // replace with your own sub-key
+  publishKey:   'demo', // replace with your own pub-key
+  subscribeKey: 'demo'  // replace with your own sub-key
 });
 
 var map = eon.map({
@@ -28,7 +28,7 @@ var map = eon.map({
   id: 'map',
   mb_token: 'mapbox api token',
   mb_id: 'mapbox map id',
-  subscribe_key: 'demo',
+  subscribeKey: 'demo',
   channel: 'my map channel'
 });
 </script>
@@ -43,7 +43,7 @@ Parameter | Value | Default
 | mb_id | Mapbox Map ID. | ```undefined```
 | transform | Method for changing the payload format of your stream. See [example](https://github.com/pubnub/eon-map/blob/master/examples/transform.html) | ```function(m){}```
 | history | Use PubNub history call to retrieve last message. This will display points at their last known location. Requires [PubNub storage](http://www.pubnub.com/how-it-works/storage-and-playback/) to be enabled. | ```false```
-| pubnub | An instance of the PUBNUB javascript global. This is required when using your own keys. See the ```subscribe_key``` example. | ```false```
+| pubnub | An instance of the PUBNUB javascript global. This is required when using your own keys. See the ```subscribeKey``` example. | ```false```
 | connect | A function to call when PubNub makes a connection. See [PubNub subscribe](http://www.pubnub.com/docs/javascript/api/reference.html#subscribe) | ```function(){}``` |
 | marker | A custom Mapbox marker object. Use this to change the marker icon, tooltip, etc. | L.marker |
 | rotate | Add bearing to markers in ```options.angle```. This won't have any effect unless you're using [a rotated marker type](https://www.mapbox.com/mapbox.js/example/v1.0.0/rotating-controlling-marker/). | ```false``` |
@@ -57,8 +57,8 @@ Call ```eon.map({})```. Check out the table of options above for more informatio
 var channel = 'pubnub-mapbox';
 
 var pn = PUBNUB.init({
-  publish_key:   'demo', // replace with your own pub-key
-  subscribe_key: 'demo'  // replace with your own sub-key
+  publishKey:   'demo', // replace with your own pub-key
+  subscribeKey: 'demo'  // replace with your own sub-key
 });
 
 var map = eon.map({
@@ -99,7 +99,7 @@ This function uses the included PubNub library to pubnub.publish()
 packets to the pubnub.subscribe() call waiting inside the 
 Mapbox framework. 
 
-Notice how the ```subscribe_key``` and ```channel```  matches.
+Notice how the ```subscribeKey``` and ```channel```  matches.
 
 ```js
 
@@ -110,8 +110,8 @@ var point = {
 };
 
 var pn = PUBNUB.init({
-  publish_key:   'demo', // replace with your own pub-key
-  subscribe_key: 'demo'  // replace with your own sub-key
+  publishKey:   'demo', // replace with your own pub-key
+  subscribeKey: 'demo'  // replace with your own sub-key
 });
 
 setInterval(function(){
@@ -143,8 +143,8 @@ You can tell the map to follow a point to it's new location whenever data is rec
 
 ```js
 var pn = PUBNUB.init({
-  publish_key:   'demo', // replace with your own pub-key
-  subscribe_key: 'demo'  // replace with your own sub-key
+  publishKey:   'demo', // replace with your own pub-key
+  subscribeKey: 'demo'  // replace with your own sub-key
 });
 
 var map = eon.map({
@@ -184,8 +184,8 @@ You can supply a custom Mapbox marker object with custom tooltips by extening th
   });
 
   var pn = PUBNUB.init({
-    publish_key:   'demo', // replace with your own pub-key
-    subscribe_key: 'demo'  // replace with your own sub-key
+    publishKey:   'demo', // replace with your own pub-key
+    subscribeKey: 'demo'  // replace with your own sub-key
   });
 
   var map = eon.map({
@@ -222,7 +222,7 @@ You can set the `pubnub` init parameter when using Eon Maps.  This allows you to
 ```html
 <div id="map"></div>
 <script>
-  var pn  = PUBNUB({ subscribe_key : 'YOUR_SUBKEY_HERE', ssl : true });
+  var pn  = PUBNUB({ subscribeKey : 'YOUR_SUBKEY_HERE', ssl : true });
   var channel = 'my-map';
   var map = eon.map({
     pubnub   : pn,  // < - - - here < - - - //

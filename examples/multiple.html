@@ -17,7 +17,10 @@
       }
     </style>
 
-    <script type="text/javascript" src="http://pubnub.github.io/eon/v/eon/0.0.10/eon.js"></script>
+    <script type="text/javascript" src="../bower_components/pubnub/dist/web/pubnub.min.js"></script>
+    <script type="text/javascript" src="../lib/mapbox.js"></script>
+    <script type="text/javascript" src="../pubnub-mapbox.js"></script>
+
     <link type="text/css" rel="stylesheet" href="http://pubnub.github.io/eon/v/eon/0.0.10/eon.css"/>
     
   </head>
@@ -32,9 +35,9 @@
     </script>
     <script>
 
-      var pn = PUBNUB.init({
-        publish_key: 'pub-c-923938f1-a4c1-4253-b15a-9c24087904c9',
-        subscribe_key: 'sub-c-bd9ab0d6-6e02-11e5-8d3b-0619f8945a4f',
+      var pn = new PubNub({
+        publishKey: 'pub-c-923938f1-a4c1-4253-b15a-9c24087904c9',
+        subscribeKey: 'sub-c-bd9ab0d6-6e02-11e5-8d3b-0619f8945a4f',
         ssl: (('https:' == document.location.protocol) ? true : false)
       });
 
