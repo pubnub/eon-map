@@ -19,11 +19,11 @@ window.eon.m = {
       return console.error("PubNub not found. See http://www.pubnub.com/docs/javascript/javascript-sdk.html#_where_do_i_get_the_code");
     }
 
-    if(typeof(options.mb_token) == "undefined" && console) {
+    if(typeof(options.mbToken) == "undefined" && console) {
       return console.error("Please supply a Mapbox Token: https://www.mapbox.com/help/create-api-access-token/");
     }
 
-    if(typeof(options.mb_id) == "undefined" && console) {
+    if(typeof(options.mbId) == "undefined" && console) {
       return console.error("Please supply a Mapbox Map ID: https://www.mapbox.com/help/define-map-id/");
     }
 
@@ -33,7 +33,7 @@ window.eon.m = {
 
     var self = this;
 
-    L.mapbox.accessToken = options.mb_token;
+    L.mapbox.accessToken = options.mbToken;
 
     var geo = {
       bearing : function (lat1,lng1,lat2,lng2) {
@@ -59,7 +59,7 @@ window.eon.m = {
 
     options.id = options.id || false;
     options.channels = options.channels || false;
-    options.channel_groups = options.channel_groups || false;
+    options.channelGroups = options.channelGroups || false;
     options.transform = options.transform || function(m){return m};
     options.history = options.history || false;
     options.message = options.message || function(){};
@@ -76,7 +76,7 @@ window.eon.m = {
       return console.error('You need to set an ID for your Mapbox element.');
     }
 
-    self.map = L.mapbox.map(options.id, options.mb_id, options.options);
+    self.map = L.mapbox.map(options.id, options.mbId, options.options);
 
     self.refreshRate = options.refreshRate || 10;
 
@@ -219,11 +219,11 @@ window.eon.m = {
       }
     });
 
-    if(options.channel_groups) {
+    if(options.channelGroups) {
 
       // assuming an intialized PubNub instance already exists
       pubnub.channelGroups.listChannels({
-          channelGroup: options.channel_groups
+          channelGroup: options.channelGroups
         }, function (status, response) {
           
           if (status.error) {
@@ -234,11 +234,11 @@ window.eon.m = {
           options.channels = response.channels;
 
           if(options.history) {
-            self.load_history();
+            self.loadHistory();
           }
 
           self.pubnub.subscribe({
-            channelGroups: options.channel_groups
+            channelGroups: options.channelGroups
           });
 
         }
@@ -250,7 +250,7 @@ window.eon.m = {
       });
     }
 
-    self.load_history = function() {
+    self.loadHistory = function() {
 
       for(var i in options.channels) {
 

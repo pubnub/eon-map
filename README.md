@@ -26,8 +26,8 @@ var pn = new PubNub({
 var map = eon.map({
   pubnub: pn,
   id: 'map',
-  mb_token: 'mapbox api token',
-  mb_id: 'mapbox map id',
+  mbToken: 'mapbox api token',
+  mbId: 'mapbox map id',
   subscribeKey: 'demo',
   channel: 'my map channel'
 });
@@ -39,10 +39,10 @@ var map = eon.map({
 Parameter | Value | Default
 | :------------ |:---------------| -----:|
 | id | The ID of the element where the map will be rendered. | ```undefined```
-| mb_token | Mapbox API Token. | ```undefined```
-| mb_id | Mapbox Map ID. | ```undefined```
-| channels | An array of PubNub channels to subscribe to. Either ```channels``` or ```channel_groups``` must be supplied. | ```false```
-| channel_groups | An array of PubNub channel groups to subscribe to. Either ```channels``` or ```channel_groups``` must be supplied. | ```false```
+| mbToken | Mapbox API Token. | ```undefined```
+| mbId | Mapbox Map ID. | ```undefined```
+| channels | An array of PubNub channels to subscribe to. Either ```channels``` or ```channelGroups``` must be supplied. | ```false```
+| channelGroups | An array of PubNub channel groups to subscribe to. Either ```channels``` or ```channelGroups``` must be supplied. | ```false```
 | transform | Method for changing the payload format of your stream. See [example](https://github.com/pubnub/eon-map/blob/master/examples/transform.html) | ```function(m){}```
 | history | Use PubNub history call to retrieve last message. This will display points at their last known location. Requires [PubNub storage](http://www.pubnub.com/how-it-works/storage-and-playback/) to be enabled. | ```false```
 | pubnub | An instance of the PUBNUB javascript global. This is required when using your own keys. See the ```subscribeKey``` example. | ```false```
@@ -67,8 +67,8 @@ var map = eon.map({
   pubnub: pn,
   eon.map({
   id: 'map',
-  mb_token: 'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg',
-  mb_id: 'ianjennings.l896mh2e',
+  mbToken: 'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg',
+  mbId: 'ianjennings.l896mh2e',
   channels: [channel],
   connect: connect
 });
@@ -152,7 +152,7 @@ var pn = new PubNub({
 var map = eon.map({
   pubnub: pn,
   id: 'map',
-  mb_id: 'ianjennings.l896mh2e',
+  mbId: 'ianjennings.l896mh2e',
   //...
   message: function (data) {
     map.setView(data[3].latlng, 13);
@@ -193,8 +193,8 @@ You can supply a custom Mapbox marker object with custom tooltips by extening th
   var map = eon.map({
     pubnub: pn,
     id: 'map',
-    mb_id: 'ianjennings.lec77m70',
-    mb_token: 'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg',
+    mbId: 'ianjennings.lec77m70',
+    mbToken: 'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg',
     channels: ['rutgers-bus-data'],
     rotate: true,
     history: true,
@@ -230,8 +230,8 @@ You can set the `pubnub` init parameter when using Eon Maps.  This allows you to
     pubnub: pn,  // PubNub goes here
     channels: channel,
     id: 'map',
-    mb_id 'mapbox.streets',
-    mb_token: 'pk.ey31IjoiaWRtc3giLCJhIjoiZZ1zMGI2ZjBlNTMxZjk5YTEwNjM5WNJlOWI4MmJiZGIifQ.U1jMQo2QVeuUtt85oD7hkQ'
+    mbId 'mapbox.streets',
+    mbToken: 'pk.ey31IjoiaWRtc3giLCJhIjoiZZ1zMGI2ZjBlNTMxZjk5YTEwNjM5WNJlOWI4MmJiZGIifQ.U1jMQo2QVeuUtt85oD7hkQ'
   });
 </script>
 ```
