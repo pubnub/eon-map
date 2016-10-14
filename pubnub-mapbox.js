@@ -252,13 +252,7 @@ window.eon.m = {
 
     self.load_history = function() {
 
-
-      console.log('doing history')
-      console.log(options.channels)
-
       for(var i in options.channels) {
-
-        console.log('history', options.channels[i])
 
         self.pubnub.history({
           channel: options.channels[i],
@@ -267,8 +261,6 @@ window.eon.m = {
         }, function(status, payload) {
 
           payload.messages.reverse();
-
-          console.log(status, payload)
 
           for(var a in payload.messages) {
             payload.messages[a].entry = options.transform(payload.messages[a].entry);
