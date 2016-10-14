@@ -32,5 +32,8 @@
   "bugs": {
     "url": "https://github.com/pubnub/eon-map/issues"
   },
-  "homepage": "https://github.com/pubnub/eon-map#readme"
+  "homepage": "https://github.com/pubnub/eon-map#readme",
+  "dependencies": {
+    "webpack": "^1.13.2"
+  }
 }
