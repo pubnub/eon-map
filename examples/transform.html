@@ -17,8 +17,10 @@
       }
     </style>
 
-    <script src="https://pubnub.github.io/eon/v/eon/0.1.0/eon.js" type="text/javascript"></script>
-    <link href="https://pubnub.github.io/eon/v/eon/0.1.0/eon.css" type="text/css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../lib/mapbox.css">
+    <script src="../lib/mapbox.js"></script>
+    <script src="../bower_components/pubnub/dist/web/pubnub.min.js"></script>
+    <script src="../pubnub-mapbox.js"></script>
 
   </head>
   <body>
@@ -32,8 +34,6 @@
     </script>
     <script>
       // this stream is really slow, you may need to wait to see markers appear
-
-      
       var pubnub = new PubNub({
         publishKey: 'pub-c-6dbe7bfd-6408-430a-add4-85cdfe856b47',
         subscribeKey: 'sub-c-2a73818c-d2d3-11e3-9244-02ee2ddab7fe'
@@ -44,7 +44,7 @@
         id: 'map',
         mb_token: 'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg',
         mb_id: 'ianjennings.l896mh2e',
-        channel: 'pubnub-weather',
+        channels: ['pubnub-weather'],
         transform: function(m) {
         	var a = {};
         	a[m.location] = {

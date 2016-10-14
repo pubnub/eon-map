@@ -16,9 +16,11 @@
         width:100%;
       }
     </style>
-    
-    <script src="https://pubnub.github.io/eon/v/eon/0.1.0/eon.js" type="text/javascript"></script>
-    <link href="https://pubnub.github.io/eon/v/eon/0.1.0/eon.css" type="text/css" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../lib/mapbox.css">
+    <script src="../lib/mapbox.js"></script>
+    <script src="../bower_components/pubnub/dist/web/pubnub.min.js"></script>
+    <script src="../pubnub-mapbox.js"></script>
     
   </head>
   <body>
@@ -31,94 +33,95 @@
       }
     </script>
     <script>
-
-      var pn = new PubNub({
-        publishKey: 'pub-c-923938f1-a4c1-4253-b15a-9c24087904c9',
-        subscribeKey: 'sub-c-bd9ab0d6-6e02-11e5-8d3b-0619f8945a4f',
-        ssl: (('https:' == document.location.protocol) ? true : false)
+      
+      var pubnub = new PubNub({
+        publishKey: 'pub-c-6dbe7bfd-6408-430a-add4-85cdfe856b47',
+        subscribeKey: 'sub-c-2a73818c-d2d3-11e3-9244-02ee2ddab7fe'
       });
 
-      function getNonZeroRandomNumber(){
-        var random = Math.floor(Math.random()*199) - 99;
-        if(random==0) return getNonZeroRandomNumber();
-        return random;
-      }
+      var channels = ['pubnub-mapbox-1', 'pubnub-mapbox-2', 'pubnub-mapbox-3'];
 
-      var channel = 'pubnub-mapbox-multiple-history';
+      // create channel group
+      pubnub.channelGroups.addChannels(
+          {
+              channels: channels,
+              channelGroup: "pubnub-mapbox-example"
+          }, 
+          function(status) {
+              if (status.error) {
+                  console.log("operation failed w/ status: ", status);
+              } else {
+                  console.log("operation done!")
 
-      var map = eon.map({
-        pubnub: pn,
+                  // list channels
+                  pubnub.channelGroups.listChannels(
+                    {
+                      channelGroup: "pubnub-mapbox-example"
+                    }, 
+                    function (status, response) {
+                      if (status.error) {
+                        console.log("operation failed w/ error:", status);
+                        return;
+                      }
+                       
+                      console.log("listing push channel for device")
+                      response.channels.forEach( function (channel) {
+                        console.log(channel)
+                      })
+                    }
+                  );
+
+              }
+          }
+      );
+      eon.map({
+        debug: false,
+        pubnub: pubnub,
         id: 'map',
-        mb_id: 'ianjennings.l896mh2e',
         mb_token: 'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg',
-        channel: channel,
+        mb_id: 'ianjennings.l896mh2e',
+        channel_groups: ['pubnub-mapbox-example'],
         connect: connect,
         history: true,
-        message: function (data) {
-          
-          map.setView(data[3].latlng, 13);
+        options: {
+          zoomAnimation: false,
         }
       });
 
-      function connect() {
 
-        var me = {
-          icon: {
-            'marker-color': '#ce1126'
-          }
-        };
-        var them = {
-          icon: {
-            'marker-color': '#29abe2'
-          }
+      function publish(pointId, channel) {
+
+        var point = {
+          latlng: [37.370375, -97.756138]
         };
 
-        var torchys = [
-          {
-            latlng: [30.370375, -97.756138]
-          },
-          {
-            latlng: [30.323118, -97.739144]
-          },
-          {
-            latlng: [30.302816, -97.699490]
-          },
-          {
-            latlng: [30.293479, -97.742405]
-          },
-          {
-            latlng: [30.250337, -97.754593]
-          },
-          {
-            latlng: [30.236689, -97.762730]
-          }
+        var new_point = JSON.parse(JSON.stringify(point));
+
+        new_point.latlng = [
+          new_point.latlng[0] + (getNonZeroRandomNumber() * 0.05),
+          new_point.latlng[1] + (getNonZeroRandomNumber() * 0.1)
         ];
 
+        var m = {};
+        m[pointId] = new_point;
+
+        pubnub.publish({
+          channel: channels[0],
+          message: m
+        });
+
+      }
+
+      function connect() {
+
         setInterval(function(){
-
-          var new_torchys = JSON.parse(JSON.stringify(torchys));
-          for (var i = 0; i < new_torchys.length; i++) {
-
-            new_torchys[i] = {
-              marker: new_torchys[i].marker,
-              latlng: [
-                new_torchys[i].latlng[0] + (getNonZeroRandomNumber() * 0.0002),
-                new_torchys[i].latlng[1] + (getNonZeroRandomNumber() * 0.0002)
-              ]
-            }
-
-          }
-
-          pn.publish({
-            channel: channel,
-            message: new_torchys
-          });
-
-        }, 1000);
+          publish('first', channels[0]);
+          publish('second', channels[1]);
+          publish('third', channels[2]);
+        }, 10000);
 
       };
 
     </script>
-
   </body>
 </html>

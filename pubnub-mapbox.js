@@ -58,7 +58,8 @@ window.eon.m = {
     }
 
     options.id = options.id || false;
-    options.channel = options.channel || false;
+    options.channels = options.channels || false;
+    options.channel_groups = options.channel_groups || false;
     options.transform = options.transform || function(m){return m};
     options.history = options.history || false;
     options.message = options.message || function(){};
@@ -73,7 +74,7 @@ window.eon.m = {
 
     if(!options.id) {
       return console.error('You need to set an ID for your Mapbox element.');
-      }
+    }
 
     self.map = L.mapbox.map(options.id, options.mb_id, options.options);
 
@@ -204,8 +205,8 @@ window.eon.m = {
         }
       },
       message: function(m) {
-        
-        if(m.channel == options.channel) {
+
+        if(options.channels.indexOf(m.channel) > -1) {
           
           clog('PubNub:', 'Got Message');
 
@@ -218,30 +219,67 @@ window.eon.m = {
       }
     });
 
-    self.pubnub.subscribe({
-      channels: [options.channel]
-    });
+    if(options.channel_groups) {
 
-    if(options.history) {
+      // assuming an intialized PubNub instance already exists
+      pubnub.channelGroups.listChannels({
+          channelGroup: options.channel_groups
+        }, function (status, response) {
+          
+          if (status.error) {
+            self.clog("operation failed w/ error:", status);
+            return;
+          }
 
-      self.pubnub.history({
-        channel: options.channel,
-        includeTimetoken: true
-      }, function(status, payload) {
+          options.channels = response.channels;
 
-        for(var a in payload.messages) {
-          payload.messages[a].entry = options.transform(payload.messages[a].entry);
-          options.message(payload.messages[a].entry, payload.messages[a].timetoken, options.channel);
-          self.update(payload.messages[a].entry, true);
+          if(options.history) {
+            self.load_history();
+          }
+
+          self.pubnub.subscribe({
+            channelGroups: options.channel_groups
+          });
+
         }
-
-        options.connect();
-
-      }
-     );
+      );
 
     } else {
-      options.connect();
+      self.pubnub.subscribe({
+        channels: options.channels
+      });
+    }
+
+    self.load_history = function() {
+
+
+      console.log('doing history')
+      console.log(options.channels)
+
+      for(var i in options.channels) {
+
+        console.log('history', options.channels[i])
+
+        self.pubnub.history({
+          channel: options.channels[i],
+          includeTimetoken: true,
+          count: 10
+        }, function(status, payload) {
+
+          payload.messages.reverse();
+
+          console.log(status, payload)
+
+          for(var a in payload.messages) {
+            payload.messages[a].entry = options.transform(payload.messages[a].entry);
+            options.message(payload.messages[a].entry, payload.messages[a].timetoken, options.channels);
+            self.update(payload.messages[a].entry, true);
+          }
+
+        });
+
+      }
+
     }
 
     self.refresh();

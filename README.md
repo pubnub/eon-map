@@ -41,6 +41,8 @@ Parameter | Value | Default
 | id | The ID of the element where the map will be rendered. | ```undefined```
 | mb_token | Mapbox API Token. | ```undefined```
 | mb_id | Mapbox Map ID. | ```undefined```
+| channels | An array of PubNub channels to subscribe to. Either ```channels``` or ```channel_groups``` must be supplied. | ```false```
+| channel_groups | An array of PubNub channel groups to subscribe to. Either ```channels``` or ```channel_groups``` must be supplied. | ```false```
 | transform | Method for changing the payload format of your stream. See [example](https://github.com/pubnub/eon-map/blob/master/examples/transform.html) | ```function(m){}```
 | history | Use PubNub history call to retrieve last message. This will display points at their last known location. Requires [PubNub storage](http://www.pubnub.com/how-it-works/storage-and-playback/) to be enabled. | ```false```
 | pubnub | An instance of the PUBNUB javascript global. This is required when using your own keys. See the ```subscribeKey``` example. | ```false```
@@ -67,7 +69,7 @@ var map = eon.map({
   id: 'map',
   mb_token: 'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg',
   mb_id: 'ianjennings.l896mh2e',
-  channel: channel,
+  channels: [channel],
   connect: connect
 });
 ```
@@ -193,7 +195,7 @@ You can supply a custom Mapbox marker object with custom tooltips by extening th
     id: 'map',
     mb_id: 'ianjennings.lec77m70',
     mb_token: 'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg',
-    channel: 'rutgers-bus-data',
+    channels: ['rutgers-bus-data'],
     rotate: true,
     history: true,
     marker: function (latlng, data) {
@@ -225,11 +227,11 @@ You can set the `pubnub` init parameter when using Eon Maps.  This allows you to
   var pn  = PUBNUB({ subscribeKey : 'YOUR_SUBKEY_HERE', ssl : true });
   var channel = 'my-map';
   var map = eon.map({
-    pubnub   : pn,  // < - - - here < - - - //
-    channel  : channel,
-    id       : 'map',
-    mb_id    : 'mapbox.streets',
-    mb_token : 'pk.ey31IjoiaWRtc3giLCJhIjoiZZ1zMGI2ZjBlNTMxZjk5YTEwNjM5WNJlOWI4MmJiZGIifQ.U1jMQo2QVeuUtt85oD7hkQ'
+    pubnub: pn,  // PubNub goes here
+    channels: channel,
+    id: 'map',
+    mb_id 'mapbox.streets',
+    mb_token: 'pk.ey31IjoiaWRtc3giLCJhIjoiZZ1zMGI2ZjBlNTMxZjk5YTEwNjM5WNJlOWI4MmJiZGIifQ.U1jMQo2QVeuUtt85oD7hkQ'
   });
 </script>
 ```
