@@ -10,6 +10,7 @@ Real-time location tracking powered by [PubNub](http://pubnub.com) and [MapBox](
 * [Multiple Markers + Follow Marker](http://pubnub.com/developers/eon/map/extra/)
 * [Custom Marker Image + Rotation](http://pubnub.com/developers/eon/map/flight/)
 * [Bus Tracking](http://pubnub.com/developers/eon/map/bus/)
+* [Webpack Project](https://github.com/pubnub/eon-map-webpack)
 
 ## Quickstart
 
