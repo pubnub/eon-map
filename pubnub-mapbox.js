@@ -80,11 +80,11 @@ window.eon.m = {
 
     self.refreshRate = options.refreshRate || 10;
 
-    self.lastUpdate = new Date().getTime();
+    self.lastUpdates = {};
 
     self.update = function (seed, animate) {
       
-      clog('Markers:', 'Updating');
+      clog('Markers:', 'Updating', seed);
 
       for(var key in seed) {
 
@@ -110,10 +110,10 @@ window.eon.m = {
           }
 
         }
+      
+        self.lastUpdates[key] = new Date().getTime();
 
       }
-
-      self.lastUpdate = new Date().getTime();
 
     };
 
@@ -143,7 +143,7 @@ window.eon.m = {
         start: startlatlng,
         dest: destination,
         time: new Date().getTime(),
-        length: new Date().getTime() - self.lastUpdate
+        length: new Date().getTime() - (self.lastUpdates[index] || new Date().getTime())
       };
 
       clog('Animation:', animation);
