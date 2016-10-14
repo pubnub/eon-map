@@ -106,7 +106,7 @@
         m[pointId] = new_point;
 
         pubnub.publish({
-          channel: channels[0],
+          channel: channel,
           message: m
         });
 
@@ -118,7 +118,7 @@
           publish('first', channels[0]);
           publish('second', channels[1]);
           publish('third', channels[2]);
-        }, 10000);
+        }, 5000);
 
       };
 

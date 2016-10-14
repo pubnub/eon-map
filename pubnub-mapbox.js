@@ -234,7 +234,7 @@ window.eon.m = {
           options.channels = response.channels;
 
           if(options.history) {
-            self.loadHistory();
+            self.load_history();
           }
 
           self.pubnub.subscribe({
@@ -250,7 +250,7 @@ window.eon.m = {
       });
     }
 
-    self.loadHistory = function() {
+    self.load_history = function() {
 
       for(var i in options.channels) {
 
@@ -260,7 +260,7 @@ window.eon.m = {
           count: 10
         }, function(status, payload) {
 
-          payload.messages.reverse();
+          payload.messages = payload.messages.reverse();
 
           for(var a in payload.messages) {
             payload.messages[a].entry = options.transform(payload.messages[a].entry);
