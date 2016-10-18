@@ -219,6 +219,30 @@ window.eon.m = {
       }
     });
 
+    self.loadHistory = function() {
+
+      for(var i in options.channels) {
+
+        self.pubnub.history({
+          channel: options.channels[i],
+          includeTimetoken: true,
+          count: 10
+        }, function(status, payload) {
+
+          payload.messages = payload.messages.reverse();
+
+          for(var a in payload.messages) {
+            payload.messages[a].entry = options.transform(payload.messages[a].entry);
+            options.message(payload.messages[a].entry, payload.messages[a].timetoken, options.channels);
+            self.update(payload.messages[a].entry, true);
+          }
+
+        });
+
+      }
+
+    }
+
     if(options.channelGroups) {
 
       // assuming an intialized PubNub instance already exists
@@ -253,30 +277,6 @@ window.eon.m = {
       self.pubnub.subscribe({
         channels: options.channels
       });
-
-    }
-
-    self.loadHistory = function() {
-
-      for(var i in options.channels) {
-
-        self.pubnub.history({
-          channel: options.channels[i],
-          includeTimetoken: true,
-          count: 10
-        }, function(status, payload) {
-
-          payload.messages = payload.messages.reverse();
-
-          for(var a in payload.messages) {
-            payload.messages[a].entry = options.transform(payload.messages[a].entry);
-            options.message(payload.messages[a].entry, payload.messages[a].timetoken, options.channels);
-            self.update(payload.messages[a].entry, true);
-          }
-
-        });
-
-      }
 
     }
 

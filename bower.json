@@ -30,6 +30,7 @@
     "tests"
   ],
   "dependencies": {
-    "pubnub": "~4.0.10"
+    "pubnub": "~4.0.10",
+    "mapbox.js": "^2.4.0"
   }
 }
