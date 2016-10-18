@@ -1,6 +1,6 @@
 {
   "name": "eon-map",
-  "version": "0.3.2",
+  "version": "1.0.0",
   "homepage": "https://github.com/pubnub/eon-map",
   "authors": [
     "Ian Jennings <ian@meetjennings.com>"
@@ -30,6 +30,7 @@
     "tests"
   ],
   "dependencies": {
-    "pubnub": "~4.0.10"
+    "pubnub": "~4.0.10",
+    "mapbox.js": "^2.4.0"
   }
 }

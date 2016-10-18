@@ -17,8 +17,10 @@
       }
     </style>
     
-    <script src="https://pubnub.github.io/eon/v/eon/0.1.0/eon.js" type="text/javascript"></script>
-    <link href="https://pubnub.github.io/eon/v/eon/0.1.0/eon.css" type="text/css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../bower_components/mapbox.js/mapbox.css">
+    <script src="../bower_components/mapbox.js/mapbox.js"></script>
+    <script src="../bower_components/pubnub/dist/web/pubnub.min.js"></script>
+    <script src="../pubnub-mapbox.js"></script>
     
   </head>
   <body>
@@ -49,9 +51,9 @@
       var map = eon.map({
         pubnub: pn,
         id: 'map',
-        mb_id: 'ianjennings.l896mh2e',
-        mb_token: 'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg',
-        channel: channel,
+        mbId: 'ianjennings.l896mh2e',
+        mbToken: 'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg',
+        channels:[channel],
         connect: connect,
         message: function (data) {
           map.setView(data[3].latlng, 13);

@@ -17,8 +17,10 @@
       }
     </style>
     
-    <script src="https://pubnub.github.io/eon/v/eon/0.1.0/eon.js" type="text/javascript"></script>
-    <link href="https://pubnub.github.io/eon/v/eon/0.1.0/eon.css" type="text/css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="../bower_components/mapbox.js/mapbox.css">
+    <script src="../bower_components/mapbox.js/mapbox.js"></script>
+    <script src="../bower_components/pubnub/dist/web/pubnub.min.js"></script>
+    <script src="../pubnub-mapbox.js"></script>
 
   </head>
   <body>
@@ -31,7 +33,7 @@
       }
     </script>
     <script>
-      
+    
       
       var pubnub = new PubNub({
         publishKey: 'pub-c-6dbe7bfd-6408-430a-add4-85cdfe856b47',
@@ -42,11 +44,10 @@
 
       eon.map({
         pubnub: pubnub,
-        debug: false,
         id: 'map',
-        mb_token: 'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg',
-        mb_id: 'ianjennings.l896mh2e',
-        channel: channel,
+        mbToken: 'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg',
+        mbId: 'ianjennings.l896mh2e',
+        channels: [channel],
         connect: connect,
         options: {
           zoomAnimation: false,
@@ -64,8 +65,8 @@
           var new_point = JSON.parse(JSON.stringify(point));
 
           new_point.latlng = [
-            new_point.latlng[0] + (getNonZeroRandomNumber() * 0.001),
-            new_point.latlng[1] + (getNonZeroRandomNumber() * 0.002)
+            new_point.latlng[0] + (getNonZeroRandomNumber() * 0.1),
+            new_point.latlng[1] + (getNonZeroRandomNumber() * 0.2)
           ];
 
           pubnub.publish({
@@ -85,8 +86,8 @@
             var new_point = JSON.parse(JSON.stringify(point));
 
             new_point.latlng = [
-              new_point.latlng[0] + (getNonZeroRandomNumber() * 0.001),
-              new_point.latlng[1] + (getNonZeroRandomNumber() * 0.002)
+              new_point.latlng[0] + (getNonZeroRandomNumber() * 0.1),
+              new_point.latlng[1] + (getNonZeroRandomNumber() * 0.2)
             ];
 
             pubnub.publish({

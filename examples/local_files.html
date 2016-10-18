@@ -17,8 +17,8 @@
       }
     </style>
 
-    <link rel="stylesheet" type="text/css" href="../lib/mapbox.css">
-    <script src="../lib/mapbox.js"></script>
+    <link rel="stylesheet" type="text/css" href="../bower_components/mapbox.js/mapbox.css">
+    <script src="../bower_components/mapbox.js/mapbox.js"></script>
     <script src="../bower_components/pubnub/dist/web/pubnub.min.js"></script>
     <script src="../pubnub-mapbox.js"></script>
     
@@ -42,12 +42,11 @@
       var channel = 'pubnub-mapbox' + getNonZeroRandomNumber();
 
       eon.map({
-        debug: true,
         pubnub: pubnub,
         id: 'map',
-        mb_token: 'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg',
-        mb_id: 'ianjennings.l896mh2e',
-        channel: channel,
+        mbToken: 'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg',
+        mbId: 'ianjennings.l896mh2e',
+        channels: [channel],
         connect: connect,
         options: {
           zoomAnimation: false,

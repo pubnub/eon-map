@@ -19,11 +19,11 @@ window.eon.m = {
       return console.error("PubNub not found. See http://www.pubnub.com/docs/javascript/javascript-sdk.html#_where_do_i_get_the_code");
     }
 
-    if(typeof(options.mb_token) == "undefined" && console) {
+    if(typeof(options.mbToken) == "undefined" && console) {
       return console.error("Please supply a Mapbox Token: https://www.mapbox.com/help/create-api-access-token/");
     }
 
-    if(typeof(options.mb_id) == "undefined" && console) {
+    if(typeof(options.mbId) == "undefined" && console) {
       return console.error("Please supply a Mapbox Map ID: https://www.mapbox.com/help/define-map-id/");
     }
 
@@ -33,7 +33,7 @@ window.eon.m = {
 
     var self = this;
 
-    L.mapbox.accessToken = options.mb_token;
+    L.mapbox.accessToken = options.mbToken;
 
     var geo = {
       bearing : function (lat1,lng1,lat2,lng2) {
@@ -58,7 +58,8 @@ window.eon.m = {
     }
 
     options.id = options.id || false;
-    options.channel = options.channel || false;
+    options.channels = options.channels || false;
+    options.channelGroups = options.channelGroups || false;
     options.transform = options.transform || function(m){return m};
     options.history = options.history || false;
     options.message = options.message || function(){};
@@ -73,17 +74,17 @@ window.eon.m = {
 
     if(!options.id) {
       return console.error('You need to set an ID for your Mapbox element.');
-      }
+    }
 
-    self.map = L.mapbox.map(options.id, options.mb_id, options.options);
+    self.map = L.mapbox.map(options.id, options.mbId, options.options);
 
     self.refreshRate = options.refreshRate || 10;
 
-    self.lastUpdate = new Date().getTime();
+    self.lastUpdates = {};
 
     self.update = function (seed, animate) {
       
-      clog('Markers:', 'Updating');
+      clog('Markers:', 'Updating', seed);
 
       for(var key in seed) {
 
@@ -109,10 +110,10 @@ window.eon.m = {
           }
 
         }
+      
+        self.lastUpdates[key] = new Date().getTime();
 
       }
-
-      self.lastUpdate = new Date().getTime();
 
     };
 
@@ -142,7 +143,7 @@ window.eon.m = {
         start: startlatlng,
         dest: destination,
         time: new Date().getTime(),
-        length: new Date().getTime() - self.lastUpdate
+        length: new Date().getTime() - (self.lastUpdates[index] || new Date().getTime())
       };
 
       clog('Animation:', animation);
@@ -204,8 +205,8 @@ window.eon.m = {
         }
       },
       message: function(m) {
-        
-        if(m.channel == options.channel) {
+
+        if(options.channels.indexOf(m.channel) > -1) {
           
           clog('PubNub:', 'Got Message');
 
@@ -218,30 +219,65 @@ window.eon.m = {
       }
     });
 
-    self.pubnub.subscribe({
-      channels: [options.channel]
-    });
+    self.loadHistory = function() {
 
-    if(options.history) {
+      for(var i in options.channels) {
 
-      self.pubnub.history({
-        channel: options.channel,
-        includeTimetoken: true
-      }, function(status, payload) {
+        self.pubnub.history({
+          channel: options.channels[i],
+          includeTimetoken: true,
+          count: 10
+        }, function(status, payload) {
 
-        for(var a in payload.messages) {
-          payload.messages[a].entry = options.transform(payload.messages[a].entry);
-          options.message(payload.messages[a].entry, payload.messages[a].timetoken, options.channel);
-          self.update(payload.messages[a].entry, true);
-        }
+          payload.messages = payload.messages.reverse();
 
-        options.connect();
+          for(var a in payload.messages) {
+            payload.messages[a].entry = options.transform(payload.messages[a].entry);
+            options.message(payload.messages[a].entry, payload.messages[a].timetoken, options.channels);
+            self.update(payload.messages[a].entry, true);
+          }
+
+        });
 
       }
-     );
+
+    }
+
+    if(options.channelGroups) {
+
+      // assuming an intialized PubNub instance already exists
+      pubnub.channelGroups.listChannels({
+          channelGroup: options.channelGroups
+        }, function (status, response) {
+          
+          if (status.error) {
+            clog("operation failed w/ error:", status);
+            return;
+          }
+
+          options.channels = response.channels;
+
+          if(options.history) {
+            self.loadHistory();
+          }
+
+          self.pubnub.subscribe({
+            channelGroups: options.channelGroups
+          });
+
+        }
+      );
 
     } else {
-      options.connect();
+
+      if(options.history) {
+        self.loadHistory();
+      }
+      
+      self.pubnub.subscribe({
+        channels: options.channels
+      });
+
     }
 
     self.refresh();
