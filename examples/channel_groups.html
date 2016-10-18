@@ -39,14 +39,47 @@
         subscribeKey: 'sub-c-2a73818c-d2d3-11e3-9244-02ee2ddab7fe'
       });
 
-      var channels = ['pubnub-mapbox-history-1', 'pubnub-mapbox-history-2', 'pubnub-mapbox-history-3'];
+      var channels = ['pubnub-mapbox-1', 'pubnub-mapbox-2', 'pubnub-mapbox-3'];
 
+      // create channel group
+      pubnub.channelGroups.addChannels(
+          {
+              channels: channels,
+              channelGroup: "pubnub-mapbox-example"
+          }, 
+          function(status) {
+              if (status.error) {
+                  console.log("operation failed w/ status: ", status);
+              } else {
+                  console.log("operation done!")
+
+                  // list channels
+                  pubnub.channelGroups.listChannels(
+                    {
+                      channelGroup: "pubnub-mapbox-example"
+                    }, 
+                    function (status, response) {
+                      if (status.error) {
+                        console.log("operation failed w/ error:", status);
+                        return;
+                      }
+                       
+                      console.log("listing push channel for device")
+                      response.channels.forEach( function (channel) {
+                        console.log(channel)
+                      })
+                    }
+                  );
+
+              }
+          }
+      );
       eon.map({
         pubnub: pubnub,
         id: 'map',
         mbToken: 'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg',
         mbId: 'ianjennings.l896mh2e',
-        channels: channels,
+        channelGroups: ['pubnub-mapbox-example'],
         connect: connect,
         history: true,
         options: {

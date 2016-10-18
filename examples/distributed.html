@@ -65,8 +65,8 @@
           var new_point = JSON.parse(JSON.stringify(point));
 
           new_point.latlng = [
-            new_point.latlng[0] + (getNonZeroRandomNumber() * 0.001),
-            new_point.latlng[1] + (getNonZeroRandomNumber() * 0.002)
+            new_point.latlng[0] + (getNonZeroRandomNumber() * 0.1),
+            new_point.latlng[1] + (getNonZeroRandomNumber() * 0.2)
           ];
 
           pubnub.publish({
@@ -86,8 +86,8 @@
             var new_point = JSON.parse(JSON.stringify(point));
 
             new_point.latlng = [
-              new_point.latlng[0] + (getNonZeroRandomNumber() * 0.001),
-              new_point.latlng[1] + (getNonZeroRandomNumber() * 0.002)
+              new_point.latlng[0] + (getNonZeroRandomNumber() * 0.1),
+              new_point.latlng[1] + (getNonZeroRandomNumber() * 0.2)
             ];
 
             pubnub.publish({
