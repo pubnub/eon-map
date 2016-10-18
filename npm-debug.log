@@ -1,0 +1,111 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/Users/ian/.nvm/versions/node/v5.3.0/bin/node',
+1 verbose cli   '/Users/ian/.nvm/versions/node/v5.3.0/bin/npm',
+1 verbose cli   'publish' ]
+2 info using npm@3.3.12
+3 info using node@v5.3.0
+4 verbose publish [ '.' ]
+5 silly cache add args [ '.', null ]
+6 verbose cache add spec .
+7 silly cache add parsed spec Result {
+7 silly cache add   raw: '.',
+7 silly cache add   scope: null,
+7 silly cache add   name: null,
+7 silly cache add   rawSpec: '.',
+7 silly cache add   spec: '/Users/ian/Development/eon-map',
+7 silly cache add   type: 'directory' }
+8 verbose addLocalDirectory /Users/ian/.npm/eon-map/1.0.0/package.tgz not in flight; packing
+9 info lifecycle eon-map@1.0.0~prepublish: eon-map@1.0.0
+10 silly lifecycle eon-map@1.0.0~prepublish: no script for prepublish, continuing
+11 verbose tar pack [ '/Users/ian/.npm/eon-map/1.0.0/package.tgz',
+11 verbose tar pack   '/Users/ian/Development/eon-map' ]
+12 verbose tarball /Users/ian/.npm/eon-map/1.0.0/package.tgz
+13 verbose folder /Users/ian/Development/eon-map
+14 verbose addLocalTarball adding from inside cache /Users/ian/.npm/eon-map/1.0.0/package.tgz
+15 silly cache afterAdd eon-map@1.0.0
+16 verbose afterAdd /Users/ian/.npm/eon-map/1.0.0/package/package.json not in flight; writing
+17 verbose afterAdd /Users/ian/.npm/eon-map/1.0.0/package/package.json written
+18 silly publish { name: 'eon-map',
+18 silly publish   version: '1.0.0',
+18 silly publish   description: 'Mapbox Realtime Maps with PubNub. Part of the EON Framework.',
+18 silly publish   main: 'pubnub-mapbox.js',
+18 silly publish   directories: { example: 'examples' },
+18 silly publish   scripts: { test: 'echo "Error: no test specified" && exit 1' },
+18 silly publish   repository:
+18 silly publish    { type: 'git',
+18 silly publish      url: 'git+https://github.com/pubnub/eon-map.git' },
+18 silly publish   keywords:
+18 silly publish    [ 'maps',
+18 silly publish      'pubnub',
+18 silly publish      'google',
+18 silly publish      'maps',
+18 silly publish      'realtime',
+18 silly publish      'marker',
+18 silly publish      'uber',
+18 silly publish      'lyft',
+18 silly publish      'latlong',
+18 silly publish      'lat',
+18 silly publish      'long',
+18 silly publish      'streaming' ],
+18 silly publish   author: { name: 'Ian Jennings' },
+18 silly publish   license: 'MIT',
+18 silly publish   bugs: { url: 'https://github.com/pubnub/eon-map/issues' },
+18 silly publish   homepage: 'https://github.com/pubnub/eon-map#readme',
+18 silly publish   dependencies: { webpack: '^1.13.2' },
+18 silly publish   readme: '# EON Maps\n\nReal-time location tracking powered by [PubNub](http://pubnub.com) and [MapBox](http://mapbox.com).\n\n![](http://i.imgur.com/25Zg5YB.gif)\n\n# Examples\n\n* [One Marker](http://pubnub.com/developers/eon/map/index/)\n* [Multiple Markers + Follow Marker](http://pubnub.com/developers/eon/map/extra/)\n* [Custom Marker Image + Rotation](http://pubnub.com/developers/eon/map/flight/)\n* [Bus Tracking](http://pubnub.com/developers/eon/map/bus/)\n\n## Installing\n\n### Hotlink\n\n```html\n<script type="text/javascript" src="https://pubnub.github.io/eon/v/eon/1.0.0/eon.js"></script>\n<link type="text/css" rel="stylesheet" href="https://pubnub.github.io/eon/v/eon/1.0.0/eon.css"/>\n```\n\n### Bower\n\n```sh\nbower install eon-map --save\n```\n\nCheck out our [bower example](https://github.com/pubnub/eon-map/examples/bower.html).\n\n### NPM\n\n```sh\nnpm install eon-map --save\n```\n\nCheck out our [webpack example](https://github.com/pubnub/eon-map-webpack).\n\n## Quickstart\n\nCall ```eon.map({})```. Check out the table of options below for more information.\n\n```html\n<div id=\'map\'></div>\n<script type="text/javascript">\n\nvar channel = \'pubnub-mapbox\';\n\nvar pn = new PubNub({\n  publishKey:   \'demo\', // replace with your own pub-key\n  subscribeKey: \'demo\'  // replace with your own sub-key\n});\n\nvar map = eon.map({\n  pubnub: pn,\n  id: \'map\',\n  mbToken: \'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg\',\n  mbId: \'ianjennings.l896mh2e\',\n  channels: [channel]\n});\n\n</script>\n```\n\n![](http://i.imgur.com/QtJ7E3d.gif)\n\n\n### Init\n\nParameter | Value | Default\n| :------------ |:---------------| -----:|\n| id | The ID of the element where the map will be rendered. | ```undefined```\n| mbToken | Mapbox API Token. | ```undefined```\n| mbId | Mapbox Map ID. | ```undefined```\n| channels | An array of PubNub channels to subscribe to. Either ```channels``` or ```channelGroups``` must be supplied. | ```false```\n| channelGroups | An array of PubNub channel groups to subscribe to. Either ```channels``` or ```channelGroups``` must be supplied. | ```false```\n| transform | Method for changing the payload format of your stream. See [example](https://github.com/pubnub/eon-map/blob/master/examples/transform.html) | ```function(m){}```\n| history | Use PubNub history call to retrieve last message. This will display points at their last known location. Requires [PubNub storage](http://www.pubnub.com/how-it-works/storage-and-playback/) to be enabled. | ```false```\n| pubnub | An instance of the PUBNUB javascript global. This is required when using your own keys. See the ```subscribeKey``` example. | ```false```\n| connect | A function to call when PubNub makes a connection. See [PubNub subscribe](http://www.pubnub.com/docs/javascript/api/reference.html#subscribe) | ```function(){}``` |\n| marker | A custom Mapbox marker object. Use this to change the marker icon, tooltip, etc. | L.marker |\n| rotate | Add bearing to markers in ```options.angle```. This won\'t have any effect unless you\'re using [a rotated marker type](https://www.mapbox.com/mapbox.js/example/v1.0.0/rotating-controlling-marker/). | ```false``` |\n| options | An options object supplied to the [MapBox Maps constructor](https://www.mapbox.com/mapbox.js/api/v2.4.0/l-mapbox-map/). | ```{}``` |\n\n## Lat/Long Values\n\n```eon.map``` expects an array of objects to be published on the same channel it\'s subscribed to. More on publishing in the next section.\n\nFor example, below you can find a list of all the Torchy\'s Tacos in Austin, TX.\n\n```js\nvar torchys = [\n  { latlng: [30.370375, -97.756138] },\n  { latlng: [30.323118, -97.739144] },\n  { latlng: [30.302816, -97.699490] },\n  { latlng: [30.293479, -97.742405] },\n  { latlng: [30.250337, -97.754593] },\n  { latlng: [30.236689, -97.762730] }\n];\n```\n\n## Publishing Messages\n\nThe function below is called ```connect``` and fires when the ```pubnub_mapbox``` library is ready.\n\nThis function uses the included PubNub library to pubnub.publish() \npackets to the pubnub.subscribe() call waiting inside the \nMapbox framework. \n\nNotice how the ```subscribeKey``` and ```channel```/```channels```  matches.\n\n```js\n\nfunction connect() {\n\n  var point = {\n    latlng: [37.370375, -97.756138]\n  };\n\n  var pn = new PubNub({\n    publishKey:   \'demo\', // replace with your own pub-key\n    subscribeKey: \'demo\'  // replace with your own sub-key\n  });\n\n  setInterval(function(){\n    var new_point = JSON.parse(JSON.stringify(point));\n\n    new_point.latlng = [\n      new_point.latlng[0] + (getNonZeroRandomNumber() * 0.1),\n      new_point.latlng[1] + (getNonZeroRandomNumber() * 0.2)\n    ];\n\n    pn.publish({\n      channel: channel,\n      message: [new_point] // even a single point should be an array\n    });\n\n  }, 500);\n\n};\n\nvar map = eon.map({\n  pubnub: pn,\n  id: \'map\',\n  mbToken: \'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg\',\n  mbId: \'ianjennings.l896mh2e\',\n  channels: [channel],\n  connect: connect\n});\n```\n\nYou probably want to publish data from the back-end instead. \nCheck out our docs for more info:\n\nhttp://www.pubnub.com/documentation/\n\n## Following a Point\n\nYou can tell the map to follow a point to it\'s new location whenever data is received by supplying a ```message``` callback.\n\n```js\nvar pn = new PubNub({\n  publishKey:   \'demo\', // replace with your own pub-key\n  subscribeKey: \'demo\'  // replace with your own sub-key\n});\n\nvar map = eon.map({\n  pubnub: pn,\n  id: \'map\',\n  mbId: \'ianjennings.l896mh2e\',\n  //...\n  message: function (data) {\n    map.setView(data[3].latlng, 13);\n  }\n});\n```\n\n## Marker Customization\n\nYou can supply a custom Mapbox marker object with custom tooltips by extening the ```L.marker``` object provided by mapbox. Learn more about custom markers [here](https://www.mapbox.com/mapbox.js/example/v1.0.0/custom-marker/).\n\n```html\n<div id=\'map\'></div>\n<script>\n  L.RotatedMarker = L.Marker.extend({\n    options: { angle: 0 },\n    _setPos: function(pos) {\n      L.Marker.prototype._setPos.call(this, pos);\n      if (L.DomUtil.TRANSFORM) {\n        // use the CSS transform rule if available\n        this._icon.style[L.DomUtil.TRANSFORM] += \' rotate(\' + this.options.angle + \'deg)\';\n      } else if (L.Browser.ie) {\n        // fallback for IE6, IE7, IE8\n        var rad = this.options.angle * L.LatLng.DEG_TO_RAD,\n        costheta = Math.cos(rad),\n        sintheta = Math.sin(rad);\n        this._icon.style.filter += \' progid:DXImageTransform.Microsoft.Matrix(sizingMethod=\\\'auto expand\\\', M11=\' +\n          costheta + \', M12=\' + (-sintheta) + \', M21=\' + sintheta + \', M22=\' + costheta + \')\';\n      }\n    }\n  });\n\n  var pn = new PubNub({\n    publishKey:   \'demo\', // replace with your own pub-key\n    subscribeKey: \'demo\'  // replace with your own sub-key\n  });\n\n  var map = eon.map({\n    pubnub: pn,\n    id: \'map\',\n    mbId: \'ianjennings.lec77m70\',\n    mbToken: \'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg\',\n    channels: [\'rutgers-bus-data\'],\n    rotate: true,\n    history: true,\n    marker: function (latlng, data) {\n\n      var marker = new L.RotatedMarker(latlng, {\n        icon: L.icon({\n          iconUrl: \'http://i.imgur.com/2fmFQfN.png\',\n          iconSize: [9, 32]\n        })\n      });\n\n      marker.bindPopup(\'Route \' + data.routeTag.toUpperCase());\n\n      return marker;\n\n    }\n  });\n</script>\n```\n\n## Configure using your own PubNub API Keys\n#### Using your own API Key with Eon Maps\n\nYou can set the `pubnub` init parameter when using Eon Maps.  This allows you to configure PubNub client connections with extra security options such a `auth_key` and your `cipher_key`.  You should also set `secure: true` and `ssl: true` as well.\n\n```html\n<div id="map"></div>\n<script>\n  var pn  = PUBNUB({ subscribeKey : \'YOUR_SUBKEY_HERE\', ssl : true });\n  var channel = \'my-map\';\n  var map = eon.map({\n    pubnub: pn,  // PubNub goes here\n    channels: channel,\n    id: \'map\',\n    mbId \'mapbox.streets\',\n    mbToken: \'pk.ey31IjoiaWRtc3giLCJhIjoiZZ1zMGI2ZjBlNTMxZjk5YTEwNjM5WNJlOWI4MmJiZGIifQ.U1jMQo2QVeuUtt85oD7hkQ\'\n  });\n</script>\n```\n\n\n## Kitchen Sink\n\nCheck out the ```bus.html``` and ```flight.html``` for full featured examples.\n\n## Customizing with Mapbox\n\nThe MapBox map object is returned by ```eon.mapbox``` and can be customized using the [Mapbox API](https://www.mapbox.com/mapbox.js/api/v3.1.5/). Also see the [Mapbox examples page](https://www.mapbox.com/mapbox.js/example/v1.0.0/).\n\nAlso note that you can customize your map using Mapbox map editor. You can change the map background style, add static markers, etc. Visit [Mapbox](https://www.mapbox.com/) for your own API key.\n\n## Distributed Systems\n\nThe EON library compiles all messages at designated intervals. This means you can publish from multiple sources into one map. For example, you can map the individual locations of 3 phones by supplying the same channel to your PubNub publish requests. The [flight example](http://pubnub.com/developers/eon/map/flight/) works like this; not every flight is updated on every subscribe call.\n',
+18 silly publish   readmeFilename: 'README.md',
+18 silly publish   gitHead: 'bdbc150acf3d6bc5ff67cb415afbb930c2926c91',
+18 silly publish   _id: 'eon-map@1.0.0',
+18 silly publish   _shasum: '8e250d6f0ddf144b5c061dc24572c2fd3e0b7db0',
+18 silly publish   _from: '.' }
+19 verbose getPublishConfig undefined
+20 silly mapToRegistry name eon-map
+21 silly mapToRegistry using default registry
+22 silly mapToRegistry registry https://registry.npmjs.org/
+23 silly mapToRegistry uri https://registry.npmjs.org/eon-map
+24 verbose publish registryBase https://registry.npmjs.org/
+25 silly publish uploading /Users/ian/.npm/eon-map/1.0.0/package.tgz
+26 verbose request uri https://registry.npmjs.org/eon-map
+27 verbose request sending authorization for write operation
+28 info attempt registry request try #1 at 3:47:49 PM
+29 verbose request using bearer token for auth
+30 verbose request id 1b7bf187ad0eecee
+31 http request PUT https://registry.npmjs.org/eon-map
+32 http 403 https://registry.npmjs.org/eon-map
+33 verbose headers { 'content-type': 'application/json',
+33 verbose headers   'cache-control': 'max-age=300',
+33 verbose headers   'content-length': '95',
+33 verbose headers   'accept-ranges': 'bytes',
+33 verbose headers   date: 'Tue, 18 Oct 2016 20:47:51 GMT',
+33 verbose headers   via: '1.1 varnish',
+33 verbose headers   connection: 'keep-alive',
+33 verbose headers   'x-served-by': 'cache-dfw1832-DFW',
+33 verbose headers   'x-cache': 'MISS',
+33 verbose headers   'x-cache-hits': '0',
+33 verbose headers   'x-timer': 'S1476823670.216609,VS0,VE1220',
+33 verbose headers   vary: 'Accept-Encoding' }
+34 verbose request invalidating /Users/ian/.npm/registry.npmjs.org/eon-map on PUT
+35 error publish Failed PUT 403
+36 verbose stack Error: "You cannot publish over the previously published version 1.0.0." : eon-map
+36 verbose stack     at makeError (/Users/ian/.nvm/versions/node/v5.3.0/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:264:12)
+36 verbose stack     at CachingRegistryClient.<anonymous> (/Users/ian/.nvm/versions/node/v5.3.0/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:252:14)
+36 verbose stack     at Request._callback (/Users/ian/.nvm/versions/node/v5.3.0/lib/node_modules/npm/node_modules/npm-registry-client/lib/request.js:172:14)
+36 verbose stack     at Request.self.callback (/Users/ian/.nvm/versions/node/v5.3.0/lib/node_modules/npm/node_modules/request/request.js:198:22)
+36 verbose stack     at emitTwo (events.js:87:13)
+36 verbose stack     at Request.emit (events.js:172:7)
+36 verbose stack     at Request.<anonymous> (/Users/ian/.nvm/versions/node/v5.3.0/lib/node_modules/npm/node_modules/request/request.js:1082:10)
+36 verbose stack     at emitOne (events.js:82:20)
+36 verbose stack     at Request.emit (events.js:169:7)
+36 verbose stack     at IncomingMessage.<anonymous> (/Users/ian/.nvm/versions/node/v5.3.0/lib/node_modules/npm/node_modules/request/request.js:1009:12)
+37 verbose statusCode 403
+38 verbose pkgid eon-map
+39 verbose cwd /Users/ian/Development/eon-map
+40 error Darwin 15.3.0
+41 error argv "/Users/ian/.nvm/versions/node/v5.3.0/bin/node" "/Users/ian/.nvm/versions/node/v5.3.0/bin/npm" "publish"
+42 error node v5.3.0
+43 error npm  v3.3.12
+44 error code E403
+45 error "You cannot publish over the previously published version 1.0.0." : eon-map
+46 error If you need help, you may report this error at:
+46 error     <https://github.com/npm/npm/issues>
+47 verbose exit [ 1, true ]
