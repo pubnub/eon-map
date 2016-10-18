@@ -1,6 +1,6 @@
 {
   "name": "eon-map",
-  "version": "0.4.0",
+  "version": "1.0.0",
   "description": "Mapbox Realtime Maps with PubNub. Part of the EON Framework.",
   "main": "pubnub-mapbox.js",
   "directories": {
