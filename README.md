@@ -10,15 +10,44 @@ Real-time location tracking powered by [PubNub](http://pubnub.com) and [MapBox](
 * [Multiple Markers + Follow Marker](http://pubnub.com/developers/eon/map/extra/)
 * [Custom Marker Image + Rotation](http://pubnub.com/developers/eon/map/flight/)
 * [Bus Tracking](http://pubnub.com/developers/eon/map/bus/)
-* [Webpack Project](https://github.com/pubnub/eon-map-webpack)
+
+## Installing
+
+### Hotlink
+
+```html
+<script type="text/javascript" src="https://pubnub.github.io/eon/v/eon/1.0.0/eon.js"></script>
+<link type="text/css" rel="stylesheet" href="https://pubnub.github.io/eon/v/eon/1.0.0/eon.css"/>
+```
+
+### Bower
+
+```sh
+bower install eon-map --save
+```
+
+Check out our [bower example](https://github.com/pubnub/eon-map/examples/bower.html).
+
+### NPM
+
+```sh
+npm install eon-map --save
+```
+
+Check out our [webpack example](https://github.com/pubnub/eon-map-webpack).
 
 ## Quickstart
+
+Call ```eon.map({})```. Check out the table of options below for more information.
 
 ```html
 <script type="text/javascript" src="http://pubnub.github.io/eon/lib/eon-map.js"></script>
 <link type="text/css" rel="stylesheet" href="http://pubnub.github.io/eon/lib/eon.css" />
 <div id='map'></div>
 <script type="text/javascript">
+
+var channel = 'pubnub-mapbox';
+
 var pn = new PubNub({
   publishKey:   'demo', // replace with your own pub-key
   subscribeKey: 'demo'  // replace with your own sub-key
@@ -27,13 +56,16 @@ var pn = new PubNub({
 var map = eon.map({
   pubnub: pn,
   id: 'map',
-  mbToken: 'mapbox api token',
-  mbId: 'mapbox map id',
-  subscribeKey: 'demo',
-  channel: 'my map channel'
+  mbToken: 'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg',
+  mbId: 'ianjennings.l896mh2e',
+  channels: [channel]
 });
+
 </script>
 ```
+
+![](http://i.imgur.com/QtJ7E3d.gif)
+
 
 ### Init
 
@@ -51,31 +83,6 @@ Parameter | Value | Default
 | marker | A custom Mapbox marker object. Use this to change the marker icon, tooltip, etc. | L.marker |
 | rotate | Add bearing to markers in ```options.angle```. This won't have any effect unless you're using [a rotated marker type](https://www.mapbox.com/mapbox.js/example/v1.0.0/rotating-controlling-marker/). | ```false``` |
 | options | An options object supplied to the [MapBox Maps constructor](https://www.mapbox.com/mapbox.js/api/v2.4.0/l-mapbox-map/). | ```{}``` |
-
-## Simple Example
-
-Call ```eon.map({})```. Check out the table of options above for more information.
-
-```js
-var channel = 'pubnub-mapbox';
-
-var pn = new PubNub({
-  publishKey:   'demo', // replace with your own pub-key
-  subscribeKey: 'demo'  // replace with your own sub-key
-});
-
-var map = eon.map({
-  pubnub: pn,
-  eon.map({
-  id: 'map',
-  mbToken: 'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg',
-  mbId: 'ianjennings.l896mh2e',
-  channels: [channel],
-  connect: connect
-});
-```
-
-![](http://i.imgur.com/QtJ7E3d.gif)
 
 ## Lat/Long Values
 
@@ -102,37 +109,46 @@ This function uses the included PubNub library to pubnub.publish()
 packets to the pubnub.subscribe() call waiting inside the 
 Mapbox framework. 
 
-Notice how the ```subscribeKey``` and ```channel```  matches.
+Notice how the ```subscribeKey``` and ```channel```/```channels```  matches.
 
 ```js
 
 function connect() {
 
-var point = {
-  latlng: [37.370375, -97.756138]
-};
+  var point = {
+    latlng: [37.370375, -97.756138]
+  };
 
-var pn = new PubNub({
-  publishKey:   'demo', // replace with your own pub-key
-  subscribeKey: 'demo'  // replace with your own sub-key
-});
-
-setInterval(function(){
-  var new_point = JSON.parse(JSON.stringify(point));
-
-  new_point.latlng = [
-    new_point.latlng[0] + (getNonZeroRandomNumber() * 0.1),
-    new_point.latlng[1] + (getNonZeroRandomNumber() * 0.2)
-  ];
-
-  pn.publish({
-    channel: channel,
-    message: [new_point] // even a single point should be an array
+  var pn = new PubNub({
+    publishKey:   'demo', // replace with your own pub-key
+    subscribeKey: 'demo'  // replace with your own sub-key
   });
 
-}, 500);
+  setInterval(function(){
+    var new_point = JSON.parse(JSON.stringify(point));
+
+    new_point.latlng = [
+      new_point.latlng[0] + (getNonZeroRandomNumber() * 0.1),
+      new_point.latlng[1] + (getNonZeroRandomNumber() * 0.2)
+    ];
+
+    pn.publish({
+      channel: channel,
+      message: [new_point] // even a single point should be an array
+    });
+
+  }, 500);
 
 };
+
+var map = eon.map({
+  pubnub: pn,
+  id: 'map',
+  mbToken: 'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg',
+  mbId: 'ianjennings.l896mh2e',
+  channels: [channel],
+  connect: connect
+});
 ```
 
 You probably want to publish data from the back-end instead. 
