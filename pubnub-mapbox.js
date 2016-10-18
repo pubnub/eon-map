@@ -227,14 +227,14 @@ window.eon.m = {
         }, function (status, response) {
           
           if (status.error) {
-            self.clog("operation failed w/ error:", status);
+            clog("operation failed w/ error:", status);
             return;
           }
 
           options.channels = response.channels;
 
           if(options.history) {
-            self.load_history();
+            self.loadHistory();
           }
 
           self.pubnub.subscribe({
@@ -245,12 +245,18 @@ window.eon.m = {
       );
 
     } else {
+
+      if(options.history) {
+        self.loadHistory();
+      }
+      
       self.pubnub.subscribe({
         channels: options.channels
       });
+
     }
 
-    self.load_history = function() {
+    self.loadHistory = function() {
 
       for(var i in options.channels) {
 
