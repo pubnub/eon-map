@@ -17,10 +17,8 @@
       }
     </style>
     
-    <link rel="stylesheet" type="text/css" href="../bower_components/mapbox.js/mapbox.css">
-    <script src="../bower_components/mapbox.js/mapbox.js"></script>
-    <script src="../bower_components/pubnub/dist/web/pubnub.min.js"></script>
-    <script src="../pubnub-mapbox.js"></script>
+    <script type="text/javascript" src="https://pubnub.github.io/eon/v/eon/1.0.0/eon.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://pubnub.github.io/eon/v/eon/1.0.0/eon.css"/>
 
   </head>
   <body>
@@ -36,8 +34,8 @@
     
       
       var pubnub = new PubNub({
-        publishKey: 'pub-c-6dbe7bfd-6408-430a-add4-85cdfe856b47',
-        subscribeKey: 'sub-c-2a73818c-d2d3-11e3-9244-02ee2ddab7fe'
+        publishKey: 'YOUR_PUB_KEY',
+        subscribeKey: 'YOUR_SUB_KEY'
       });
 
       var channel = 'pubnub-mapbox' + getNonZeroRandomNumber();

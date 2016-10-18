@@ -47,8 +47,8 @@ Call ```eon.map({})```. Check out the table of options below for more informatio
 var channel = 'pubnub-mapbox';
 
 var pn = new PubNub({
-  publishKey:   'demo', // replace with your own pub-key
-  subscribeKey: 'demo'  // replace with your own sub-key
+  publishKey:   'YOUR_PUB_KEY', // replace with your own pub-key
+  subscribeKey: 'YOUR_SUB_KEY'  // replace with your own sub-key
 });
 
 var map = eon.map({
@@ -118,8 +118,8 @@ function connect() {
   };
 
   var pn = new PubNub({
-    publishKey:   'demo', // replace with your own pub-key
-    subscribeKey: 'demo'  // replace with your own sub-key
+    publishKey:   'YOUR_PUB_KEY', // replace with your own pub-key
+    subscribeKey: 'YOUR_SUB_KEY'  // replace with your own sub-key
   });
 
   setInterval(function(){
@@ -160,8 +160,8 @@ You can tell the map to follow a point to it's new location whenever data is rec
 
 ```js
 var pn = new PubNub({
-  publishKey:   'demo', // replace with your own pub-key
-  subscribeKey: 'demo'  // replace with your own sub-key
+  publishKey:   'YOUR_PUB_KEY', // replace with your own pub-key
+  subscribeKey: 'YOUR_SUB_KEY'  // replace with your own sub-key
 });
 
 var map = eon.map({
@@ -201,8 +201,8 @@ You can supply a custom Mapbox marker object with custom tooltips by extening th
   });
 
   var pn = new PubNub({
-    publishKey:   'demo', // replace with your own pub-key
-    subscribeKey: 'demo'  // replace with your own sub-key
+    publishKey:   'YOUR_PUB_KEY', // replace with your own pub-key
+    subscribeKey: 'YOUR_SUB_KEY'  // replace with your own sub-key
   });
 
   var map = eon.map({
@@ -239,7 +239,10 @@ You can set the `pubnub` init parameter when using Eon Maps.  This allows you to
 ```html
 <div id="map"></div>
 <script>
-  var pn  = PUBNUB({ subscribeKey : 'YOUR_SUBKEY_HERE', ssl : true });
+  var pn  = PUBNUB({ 
+    subscribeKey : 'YOUR_SUB_KEY', 
+    ssl : true 
+  });
   var channel = 'my-map';
   var map = eon.map({
     pubnub: pn,  // PubNub goes here
