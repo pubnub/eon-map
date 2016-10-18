@@ -41,8 +41,6 @@ Check out our [webpack example](https://github.com/pubnub/eon-map-webpack).
 Call ```eon.map({})```. Check out the table of options below for more information.
 
 ```html
-<script type="text/javascript" src="http://pubnub.github.io/eon/lib/eon-map.js"></script>
-<link type="text/css" rel="stylesheet" href="http://pubnub.github.io/eon/lib/eon.css" />
 <div id='map'></div>
 <script type="text/javascript">
 
