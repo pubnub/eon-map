@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Leaflet</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/leaflet-src.js"></script>
+
+    <script src="http://maps.google.com/maps/api/js?key=YOUR_GOOGLE_KEY"></script>
+    <script src="http://matchingnotes.com/javascripts/leaflet-google.js"></script>
+
+    <script src="../bower_components/pubnub/dist/web/pubnub.min.js"></script>
+    <script src="../pubnub-mapbox.js"></script>
+
+    <style type="text/css">
+      .leaflet-map-pane {
+        z-index: 2 !important;
+      }
+      .leaflet-google-layer {
+        z-index: 1 !important;
+      }
+      body {
+        padding: 0px;
+        margin: 0px;
+      }
+    </style>
+
+  </head>
+  <body>
+    <div style="width: 100%; height:500px" id="map"></div>  
+    <div id='map'></div>
+    <script>
+      function getNonZeroRandomNumber(){
+        var random = Math.floor(Math.random()*199) - 99;
+        if(random==0) return getNonZeroRandomNumber();
+        return random;
+      }
+    </script>
+    <script>
+      
+      var pubnub = new PubNub({
+        publishKey: 'YOUR_PUB_KEY',
+        subscribeKey: 'YOUR_SUB_KEY'
+      });
+
+      var channel = 'pubnub-mapbox' + getNonZeroRandomNumber();
+
+      eon.map({
+        pubnub: pubnub,
+        id: 'map',
+        channels: [channel],
+        connect: connect,
+        options: {
+          center: new L.LatLng(37.370375, -97.75613851), 
+          zoom: 5
+        }
+      });
+
+      function connect() {
+
+        var point = {
+          latlng: [37.370375, -97.756138]
+        };
+
+        setInterval(function(){
+
+          var new_point = JSON.parse(JSON.stringify(point));
+
+          new_point.latlng = [
+            new_point.latlng[0] + (getNonZeroRandomNumber() * 0.05),
+            new_point.latlng[1] + (getNonZeroRandomNumber() * 0.1)
+          ];
+
+          pubnub.publish({
+            channel: channel,
+            message: [new_point]
+          });
+
+        }, 1000);
+
+      };
+
+    </script>
+  </body>
+</html>

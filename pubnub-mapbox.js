@@ -19,13 +19,13 @@ window.eon.m = {
       return console.error("PubNub not found. See http://www.pubnub.com/docs/javascript/javascript-sdk.html#_where_do_i_get_the_code");
     }
 
-    if(typeof(options.mbToken) == "undefined" && console) {
-      return console.error("Please supply a Mapbox Token: https://www.mapbox.com/help/create-api-access-token/");
-    }
+    // if(typeof(options.mbToken) == "undefined" && console) {
+    //   return console.error("Please supply a Mapbox Token: https://www.mapbox.com/help/create-api-access-token/");
+    // }
 
-    if(typeof(options.mbId) == "undefined" && console) {
-      return console.error("Please supply a Mapbox Map ID: https://www.mapbox.com/help/define-map-id/");
-    }
+    // if(typeof(options.mbId) == "undefined" && console) {
+    //   return console.error("Please supply a Mapbox Map ID: https://www.mapbox.com/help/define-map-id/");
+    // }
 
     if(typeof(L) == "undefined" && console) {
       return console.error("You need to include the Mapbox Javascript library.");
@@ -33,7 +33,7 @@ window.eon.m = {
 
     var self = this;
 
-    L.mapbox.accessToken = options.mbToken;
+    // L.mapbox.accessToken = options.mbToken;
 
     var geo = {
       bearing : function (lat1,lng1,lat2,lng2) {
@@ -76,7 +76,14 @@ window.eon.m = {
       return console.error('You need to set an ID for your Mapbox element.');
     }
 
-    self.map = L.mapbox.map(options.id, options.mbId, options.options);
+    // self.map = L.mapbox.map(options.id, options.mbId, options.options);
+
+    self.map = new L.Map('map', options.options);
+
+    console.log(self.map)
+
+    var googleLayer = new L.Google('ROADMAP');
+    self.map.addLayer(googleLayer);
 
     self.refreshRate = options.refreshRate || 10;
 
