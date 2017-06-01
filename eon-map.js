@@ -60,6 +60,10 @@ window.eon.m = {
 
     options.provider = options.provider || 'mapbox';
 
+    options.googleMutant = options.googleMutant || {
+      type: 'roadmap' // valid values are 'roadmap', 'satellite', 'terrain' and 'hybrid'
+    };
+
     clog('Options', options);
 
     self.markers = {};
@@ -96,12 +100,7 @@ window.eon.m = {
 
       GoogleMapsLoader.load(function(google) {
 
-        // var googleLayer = new L.Google('ROADMAP');
-        // self.map.addLayer(googleLayer);
-
-        var roads = L.gridLayer.googleMutant({
-            type: 'roadmap' // valid values are 'roadmap', 'satellite', 'terrain' and 'hybrid'
-        }).addTo(self.map);
+        var roads = L.gridLayer.googleMutant(options.googleMutant).addTo(self.map);
 
       });
 

@@ -83,6 +83,7 @@ Parameter | Value | Default
 | mbId | Mapbox Map ID (MapBox Only). | ```undefined```
 | options | An options object supplied to the [MapBox Maps constructor](https://www.mapbox.com/mapbox.js/api/v2.4.0/l-mapbox-map/) (MapBox Only). | ```{}``` |
 | googleKey | Google Maps API Key (Google Maps Only) | ```undefined```
+| googleMutant | Configure Google Maps Styles and Options as documented in [Google Mutant Plugin](https://gitlab.com/IvanSanchez/Leaflet.GridLayer.GoogleMutant#usage)  | ```{ type: 'roadmap'}```
 
 ## Lat/Long Values
 
