@@ -50,7 +50,14 @@
           zoom: 5
         },
         provider: 'google',
-        googleKey: 'AIzaSyBYcy2l0Yf4lDADZ_U0zi6dy0M6pFZyPQA'
+        googleKey: 'AIzaSyBYcy2l0Yf4lDADZ_U0zi6dy0M6pFZyPQA',
+        googleMutant: {
+          type: 'roadmap',
+          styles: [
+              {elementType: 'labels', stylers: [{visibility: 'off'}]},
+              {featureType: 'water', stylers: [{color: '#000000'}]}
+          ]
+        }
       });
 
       function connect() {
