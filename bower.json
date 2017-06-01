@@ -31,6 +31,8 @@
   ],
   "dependencies": {
     "pubnub": "~4.0.10",
-    "mapbox.js": "^2.4.0"
+    "mapbox.js": "^2.4.0",
+    "google-maps": "^3.2.1",
+    "leaflet": "0.7.7"
   }
 }

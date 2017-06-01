@@ -19,21 +19,11 @@ window.eon.m = {
       return console.error("PubNub not found. See http://www.pubnub.com/docs/javascript/javascript-sdk.html#_where_do_i_get_the_code");
     }
 
-    if(typeof(options.mbToken) == "undefined" && console) {
-      return console.error("Please supply a Mapbox Token: https://www.mapbox.com/help/create-api-access-token/");
-    }
-
-    if(typeof(options.mbId) == "undefined" && console) {
-      return console.error("Please supply a Mapbox Map ID: https://www.mapbox.com/help/define-map-id/");
-    }
-
     if(typeof(L) == "undefined" && console) {
-      return console.error("You need to include the Mapbox Javascript library.");
+      return console.error("You need to include the Mapbox or Google Javascript library.");
     }
 
     var self = this;
-
-    L.mapbox.accessToken = options.mbToken;
 
     var geo = {
       bearing : function (lat1,lng1,lat2,lng2) {
@@ -68,6 +58,8 @@ window.eon.m = {
     options.marker = options.marker || L.marker;
     options.options = options.options || {};
 
+    options.provider = options.provider || 'mapbox';
+
     clog('Options', options);
 
     self.markers = {};
@@ -76,14 +68,47 @@ window.eon.m = {
       return console.error('You need to set an ID for your Mapbox element.');
     }
 
-    self.map = L.mapbox.map(options.id, options.mbId, options.options);
+    if(options.provider == 'mapbox') {
+
+      if(typeof(options.mbToken) == "undefined" && console) {
+        return console.error("Please supply a Mapbox Token: https://www.mapbox.com/help/create-api-access-token/");
+      }
+
+      if(typeof(options.mbId) == "undefined" && console) {
+        return console.error("Please supply a Mapbox Map ID: https://www.mapbox.com/help/define-map-id/");
+      }
+
+      L.mapbox.accessToken = options.mbToken;
+
+      self.map = L.mapbox.map(options.id, options.mbId, options.options);
+
+    }
+
+    if(options.provider == 'google') {
+
+      if(typeof(options.googleKey) == "undefined" && console) {
+        return console.error("Please supply a Google Maps API Key");
+      }
+
+      GoogleMapsLoader.KEY = options.googleKey;
+
+      self.map = new L.Map('map', options.options);
+
+      GoogleMapsLoader.load(function(google) {
+
+        var googleLayer = new L.Google('ROADMAP');
+        self.map.addLayer(googleLayer);
+
+      });
+
+    }
 
     self.refreshRate = options.refreshRate || 10;
 
     self.lastUpdates = {};
 
     self.update = function (seed, animate) {
-      
+
       clog('Markers:', 'Updating', seed);
 
       for(var key in seed) {
@@ -110,7 +135,7 @@ window.eon.m = {
           }
 
         }
-      
+
         self.lastUpdates[key] = new Date().getTime();
 
       }
@@ -187,7 +212,7 @@ window.eon.m = {
             if(options.rotate) {
               self.markers[index].options.angle = geo.bearing(s.position.lat, s.position.lng, s.lat, s.lng);
             }
-             
+
           }
 
         }
@@ -207,7 +232,7 @@ window.eon.m = {
       message: function(m) {
 
         if(options.channels.indexOf(m.channel) > -1) {
-          
+
           clog('PubNub:', 'Got Message');
 
           message = options.transform(m.message);
@@ -249,7 +274,7 @@ window.eon.m = {
       self.pubnub.channelGroups.listChannels({
           channelGroup: options.channelGroups
         }, function (status, response) {
-          
+
           if (status.error) {
             clog("operation failed w/ error:", status);
             return;
@@ -273,7 +298,7 @@ window.eon.m = {
       if(options.history) {
         self.loadHistory();
       }
-      
+
       self.pubnub.subscribe({
         channels: options.channels
       });

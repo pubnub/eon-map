@@ -1,0 +1,10 @@
+{
+	"name": "google-maps",
+	"main": "lib/Google.js",
+	"ignore": [
+		"node_modules",
+		"test",
+		"**/.*",
+		"*.json"
+	]
+}

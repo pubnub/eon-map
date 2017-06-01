@@ -70,8 +70,6 @@ var map = eon.map({
 Parameter | Value | Default
 | :------------ |:---------------| -----:|
 | id | The ID of the element where the map will be rendered. | ```undefined```
-| mbToken | Mapbox API Token. | ```undefined```
-| mbId | Mapbox Map ID. | ```undefined```
 | channels | An array of PubNub channels to subscribe to. Either ```channels``` or ```channelGroups``` must be supplied. | ```false```
 | channelGroups | An array of PubNub channel groups to subscribe to. Either ```channels``` or ```channelGroups``` must be supplied. | ```false```
 | transform | Method for changing the payload format of your stream. | ```function(m){}```
@@ -80,7 +78,11 @@ Parameter | Value | Default
 | connect | A function to call when PubNub makes a connection. See [PubNub subscribe](http://www.pubnub.com/docs/javascript/api/reference.html#subscribe) | ```function(){}``` |
 | marker | A custom Mapbox marker object. Use this to change the marker icon, tooltip, etc. | L.marker |
 | rotate | Add bearing to markers in ```options.angle```. This won't have any effect unless you're using [a rotated marker type](https://www.mapbox.com/mapbox.js/example/v1.0.0/rotating-controlling-marker/). | ```false``` |
-| options | An options object supplied to the [MapBox Maps constructor](https://www.mapbox.com/mapbox.js/api/v2.4.0/l-mapbox-map/). | ```{}``` |
+| provider | Google or Mapbox | ```mapbox```
+| mbToken |Mapbox API Token (Mapbox Only). | ```undefined```
+| mbId | Mapbox Map ID (MapBox Only). | ```undefined```
+| options | An options object supplied to the [MapBox Maps constructor](https://www.mapbox.com/mapbox.js/api/v2.4.0/l-mapbox-map/) (MapBox Only). | ```{}``` |
+| googleKey | Google Maps API Key (Google Maps Only) | ```undefined```
 
 ## Lat/Long Values
 
@@ -103,9 +105,9 @@ var torchys = [
 
 The function below is called ```connect``` and fires when the ```pubnub_mapbox``` library is ready.
 
-This function uses the included PubNub library to pubnub.publish() 
-packets to the pubnub.subscribe() call waiting inside the 
-Mapbox framework. 
+This function uses the included PubNub library to pubnub.publish()
+packets to the pubnub.subscribe() call waiting inside the
+Mapbox framework.
 
 Notice how the ```subscribeKey``` and ```channel```/```channels```  matches.
 
@@ -149,7 +151,7 @@ var map = eon.map({
 });
 ```
 
-You probably want to publish data from the back-end instead. 
+You probably want to publish data from the back-end instead.
 Check out our docs for more info:
 
 http://www.pubnub.com/documentation/
@@ -239,9 +241,9 @@ You can set the `pubnub` init parameter when using Eon Maps.  This allows you to
 ```html
 <div id="map"></div>
 <script>
-  var pn  = PUBNUB({ 
-    subscribeKey : 'YOUR_SUB_KEY', 
-    ssl : true 
+  var pn  = PUBNUB({
+    subscribeKey : 'YOUR_SUB_KEY',
+    ssl : true
   });
   var channel = 'my-map';
   var map = eon.map({

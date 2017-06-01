@@ -1,4 +1,4 @@
-/*! 4.0.10 / Consumer  */
+/*! 4.0.13 / Consumer  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -593,7 +593,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	/* WEBPACK VAR INJECTION */(function(global) {
 	var rng;
 
-	if (global.crypto && crypto.getRandomValues) {
+	var crypto = global.crypto || global.msCrypto; // for IE 11
+	if (crypto && crypto.getRandomValues) {
 	  // WHATWG crypto-based RNG - http://wiki.whatwg.org/wiki/Crypto
 	  // Moderately fast, high quality
 	  var _rnds8 = new Uint8Array(16);
@@ -701,7 +702,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'shiftStandardOrigin',
 	    value: function shiftStandardOrigin() {
-	      var failover = arguments.length <= 0 || arguments[0] === undefined ? false : arguments[0];
+	      var failover = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
 
 	      this._standardOrigin = this.nextOrigin(failover);
 
@@ -1588,24 +1589,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  // progress
-	  var handleProgress = function(e){
+	  var handleProgress = function(direction, e) {
 	    if (e.total > 0) {
 	      e.percent = e.loaded / e.total * 100;
 	    }
-	    e.direction = 'download';
+	    e.direction = direction;
 	    self.emit('progress', e);
-	  };
-	  if (this.hasListeners('progress')) {
-	    xhr.onprogress = handleProgress;
 	  }
-	  try {
-	    if (xhr.upload && this.hasListeners('progress')) {
-	      xhr.upload.onprogress = handleProgress;
+	  if (this.hasListeners('progress')) {
+	    try {
+	      xhr.onprogress = handleProgress.bind(null, 'download');
+	      if (xhr.upload) {
+	        xhr.upload.onprogress = handleProgress.bind(null, 'upload');
+	      }
+	    } catch(e) {
+	      // Accessing xhr.upload fails in IE from a web worker, so just pretend it doesn't exist.
+	      // Reported here:
+	      // https://connect.microsoft.com/IE/feedback/details/837245/xmlhttprequest-upload-throws-invalid-argument-when-used-from-web-worker-context
 	    }
-	  } catch(e) {
-	    // Accessing xhr.upload fails in IE from a web worker, so just pretend it doesn't exist.
-	    // Reported here:
-	    // https://connect.microsoft.com/IE/feedback/details/837245/xmlhttprequest-upload-throws-invalid-argument-when-used-from-web-worker-context
 	  }
 
 	  // timeout
@@ -2044,6 +2045,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return this._fullfilledPromise.then(resolve, reject);
 	}
 
+	exports.catch = function(cb) {
+	  return this.then(undefined, cb);
+	};
+
 	/**
 	 * Allow for extension
 	 */
@@ -2133,21 +2138,42 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	/**
-	 * Write the field `name` and `val` for "multipart/form-data"
-	 * request bodies.
+	 * Write the field `name` and `val`, or multiple fields with one object
+	 * for "multipart/form-data" request bodies.
 	 *
 	 * ``` js
 	 * request.post('/upload')
 	 *   .field('foo', 'bar')
 	 *   .end(callback);
+	 *
+	 * request.post('/upload')
+	 *   .field({ foo: 'bar', baz: 'qux' })
+	 *   .end(callback);
 	 * ```
 	 *
-	 * @param {String} name
+	 * @param {String|Object} name
 	 * @param {String|Blob|File|Buffer|fs.ReadStream} val
 	 * @return {Request} for chaining
 	 * @api public
 	 */
 	exports.field = function(name, val) {
+
+	  // name should be either a string or an object.
+	  if (null === name ||  undefined === name) {
+	    throw new Error('.field(name, val) name can not be empty');
+	  }
+
+	  if (isObject(name)) {
+	    for (var key in name) {
+	      this.field(key, name[key]);
+	    }
+	    return this;
+	  }
+
+	  // val should be defined now
+	  if (null === val || undefined === val) {
+	    throw new Error('.field(name, val) val can not be empty');
+	  }
 	  this._getFormData().append(name, val);
 	  return this;
 	};
@@ -2736,7 +2762,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = {
 		"name": "pubnub",
 		"preferGlobal": false,
-		"version": "4.0.10",
+		"version": "4.0.13",
 		"author": "PubNub <support@pubnub.com>",
 		"description": "Publish & Subscribe Real-time Messaging with PubNub",
 		"bin": {},
@@ -2762,25 +2788,25 @@ return /******/ (function(modules) { // webpackBootstrap
 			"messaging"
 		],
 		"dependencies": {
-			"superagent": "^2.2.0",
-			"uuid": "^2.0.2"
+			"superagent": "^2.3.0",
+			"uuid": "^2.0.3"
 		},
 		"noAnalyze": false,
 		"devDependencies": {
-			"babel-core": "^6.14.0",
-			"babel-eslint": "6.1.2",
+			"babel-core": "^6.17.0",
+			"babel-eslint": "7.0.0",
 			"babel-plugin-add-module-exports": "^0.2.1",
-			"babel-plugin-transform-class-properties": "^6.11.5",
+			"babel-plugin-transform-class-properties": "^6.16.0",
 			"babel-plugin-transform-flow-strip-types": "^6.14.0",
-			"babel-preset-es2015": "^6.14.0",
-			"babel-register": "^6.14.0",
+			"babel-preset-es2015": "^6.16.0",
+			"babel-register": "^6.16.3",
 			"chai": "^3.5.0",
-			"eslint-config-airbnb": "11.1.0",
-			"eslint-plugin-flowtype": "2.17.1",
-			"eslint-plugin-import": "^1.15.0",
-			"eslint-plugin-mocha": "4.5.1",
-			"eslint-plugin-react": "6.2.1",
-			"flow-bin": "^0.32.0",
+			"eslint-config-airbnb": "12.0.0",
+			"eslint-plugin-flowtype": "2.19.0",
+			"eslint-plugin-import": "^1.16.0",
+			"eslint-plugin-mocha": "4.6.0",
+			"eslint-plugin-react": "6.3.0",
+			"flow-bin": "^0.33.0",
 			"gulp": "^3.9.1",
 			"gulp-babel": "^6.1.2",
 			"gulp-clean": "^0.3.2",
@@ -2800,20 +2826,20 @@ return /******/ (function(modules) { // webpackBootstrap
 			"karma-babel-preprocessor": "^6.0.1",
 			"karma-chai": "0.1.0",
 			"karma-chrome-launcher": "^2.0.0",
-			"karma-mocha": "^1.1.1",
+			"karma-mocha": "^1.2.0",
 			"karma-phantomjs-launcher": "1.0.2",
 			"karma-spec-reporter": "0.0.26",
-			"mocha": "3.0.2",
+			"mocha": "3.1.0",
 			"nock": "^8.0.0",
 			"phantomjs-prebuilt": "2.1.12",
 			"remap-istanbul": "^0.6.4",
 			"run-sequence": "^1.2.2",
-			"sinon": "^1.17.5",
+			"sinon": "^1.17.6",
 			"stats-webpack-plugin": "^0.4.2",
 			"uglify-js": "^2.7.3",
 			"underscore": "^1.8.3",
 			"webpack": "^1.13.2",
-			"webpack-dev-server": "1.15.1",
+			"webpack-dev-server": "1.16.1",
 			"webpack-stream": "^3.2.0"
 		},
 		"bundleDependencies": [],
@@ -3393,6 +3419,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this._channelGroups = {};
 	    this._presenceChannelGroups = {};
 
+	    this._pendingChannelSubscriptions = [];
+	    this._pendingChannelGroupSubscriptions = [];
+
 	    this._timetoken = 0;
 	    this._subscriptionStatusAnnounced = false;
 
@@ -3440,11 +3469,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	      channels.forEach(function (channel) {
 	        _this2._channels[channel] = { state: {} };
 	        if (withPresence) _this2._presenceChannels[channel] = {};
+
+	        _this2._pendingChannelSubscriptions.push(channel);
 	      });
 
 	      channelGroups.forEach(function (channelGroup) {
 	        _this2._channelGroups[channelGroup] = { state: {} };
 	        if (withPresence) _this2._presenceChannelGroups[channelGroup] = {};
+
+	        _this2._pendingChannelGroupSubscriptions.push(channelGroup);
 	      });
 
 	      this._subscriptionStatusAnnounced = false;
@@ -3473,6 +3506,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      if (this._config.suppressLeaveEvents === false) {
 	        this._leaveEndpoint({ channels: channels, channelGroups: channelGroups }, function (status) {
+	          status.affectedChannels = channels;
+	          status.affectedChannelGroups = channelGroups;
 	          _this3._listenerManager.announceStatus(status);
 	        });
 	      }
@@ -3602,9 +3637,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (status.error) {
 	        if (status.category === _categories2.default.PNTimeoutCategory) {
 	          this._startSubscribeLoop();
-	        }
-
-	        if (status.category === _categories2.default.PNNetworkIssuesCategory) {
+	        } else if (status.category === _categories2.default.PNNetworkIssuesCategory) {
 	          this.disconnect();
 	          this._reconnectionManager.onReconnection(function () {
 	            _this5.reconnect();
@@ -3617,6 +3650,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	          });
 	          this._reconnectionManager.startPolling();
 	          this._listenerManager.announceStatus(status);
+	        } else {
+	          this._listenerManager.announceStatus(status);
 	        }
 
 	        return;
@@ -3626,8 +3661,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var connectedAnnounce = {};
 	        connectedAnnounce.category = _categories2.default.PNConnectedCategory;
 	        connectedAnnounce.operation = status.operation;
+	        connectedAnnounce.affectedChannels = this._pendingChannelSubscriptions;
+	        connectedAnnounce.affectedChannelGroups = this._pendingChannelGroupSubscriptions;
 	        this._subscriptionStatusAnnounced = true;
 	        this._listenerManager.announceStatus(connectedAnnounce);
+
+	        this._pendingChannelSubscriptions = [];
+	        this._pendingChannelGroupSubscriptions = [];
 	      }
 
 	      payload.messages.forEach(function (message) {
@@ -5506,7 +5546,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  value: true
 	});
 
-	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol ? "symbol" : typeof obj; };
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 	exports.getOperation = getOperation;
 	exports.validateParams = validateParams;
