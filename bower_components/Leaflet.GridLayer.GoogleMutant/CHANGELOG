@@ -1,0 +1,71 @@
+
+# v0.6.2
+
+* Specify Leaflet as a peerDependency in package.json
+
+# v0.6.1
+
+* Fix missing tiles by keeping tiles more agressively (by @luiscamacho)
+
+# v0.6.0
+
+* Add support for displaying some types of the traffic and "pegman" layers (by @luiscamacho)
+* Add more sanity checks, prevent errors when the GMaps code takes time to load (by @tedbreen and @zakjan)
+* Fixed a `forEach` iterator causing trouble in IE11 (by @dnasir)
+* Fixed some race conditions by copying the tiles instead of moving them (by @luiscamacho)
+
+# v0.5.1
+
+* Handle `maxNativeZoom` based on the available imagery (by @luiscamacho)
+
+# v0.5.0
+
+* Handle `maxNativeZoom` based on the available imagery (by @luiscamacho)
+
+# v0.4.5
+
+* Shift controls in the lower left corner (in addition to those in the lower right) (by @luiscamacho).
+* Resolve tiles in the same order they are mutated in, fixes race conditions at zooms 0-1 (by @TolonUK).
+* Explicitly set z-index of mutant to avoid event propagation problems on iOS (by @robertharm).
+
+# v0.4.4
+
+* Changed README to show how to polyfill promises for IE11 (by @dullroar).
+* Fixed a race condition on `_freshTiles` handling (by @luiscamacho).
+
+# v0.4.3
+
+* Fixed displacement of label tiles in hybrid mode
+
+# v0.4.2
+
+* Fixed typos in variable references
+* Added linting
+
+# v0.4.1
+
+* Fixed a race condition involving spurious tile caching (thanks @tyllo)
+
+# v0.4.0
+
+* Ability to used styled maps (by @burakcalik and @danvirsen)
+
+# v0.3.1
+
+* Minor bugfixes by @tomhughes
+
+# v0.3.0
+
+* Implemented 'hybrid' mode, though there are tile pruning artifacts
+
+# v0.2.1
+
+* Fix entry point in package.json
+
+# v0.2.0
+
+* Images from the static maps API (which only appear on small viewports) are now removed and thus do not obscure map controls.
+
+# v0.1.0
+
+* Initial release

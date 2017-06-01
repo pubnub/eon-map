@@ -1,0 +1,26 @@
+{
+  "name": "leaflet.gridlayer.googlemutant",
+  "version": "0.6.2",
+  "description": "A plugin for LeafletJS to use Google maps basemaps.",
+  "main": "Leaflet.GoogleMutant.js",
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/IvanSanchez/Leaflet.GridLayer.GoogleMutant.git"
+  },
+  "keywords": [
+    "leaflet",
+    "google maps"
+  ],
+  "scripts": {
+    "lint": "eslint .",
+    "lintfix": "eslint . --fix"
+  },
+  "author": "Iván Sánchez Ortega <ivan@sanchezortega.es>",
+  "license": "Beerware",
+  "devDependencies": {
+    "eslint": "^3.8.1"
+  },
+  "peerDependencies": {
+    "leaflet": "^1.0.0"
+  }
+}
