@@ -96,8 +96,12 @@ window.eon.m = {
 
       GoogleMapsLoader.load(function(google) {
 
-        var googleLayer = new L.Google('ROADMAP');
-        self.map.addLayer(googleLayer);
+        // var googleLayer = new L.Google('ROADMAP');
+        // self.map.addLayer(googleLayer);
+
+        var roads = L.gridLayer.googleMutant({
+            type: 'roadmap' // valid values are 'roadmap', 'satellite', 'terrain' and 'hybrid'
+        }).addTo(self.map);
 
       });
 
