@@ -1,6 +1,6 @@
 # EON Maps
 
-Real-time location tracking powered by [PubNub](http://pubnub.com) and [MapBox](http://mapbox.com).
+Real-time location tracking powered by [PubNub](http://pubnub.com) and [MapBox](http://mapbox.com) or [Google Maps](https://developers.google.com/maps/).
 
 ![](http://i.imgur.com/25Zg5YB.gif)
 
@@ -255,8 +255,6 @@ You can set the `pubnub` init parameter when using Eon Maps.  This allows you to
   });
 </script>
 ```
-
-
 ## Kitchen Sink
 
 Check out the ```bus.html``` and ```flight.html``` for full featured examples.
