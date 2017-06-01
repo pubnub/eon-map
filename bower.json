@@ -1,6 +1,6 @@
 {
   "name": "eon-map",
-  "version": "1.0.2",
+  "version": "1.1.1",
   "homepage": "https://github.com/pubnub/eon-map",
   "authors": [
     "Ian Jennings <ian@meetjennings.com>"
@@ -33,6 +33,6 @@
     "pubnub": "~4.0.10",
     "mapbox.js": "^2.4.0",
     "google-maps": "^3.2.1",
-    "leaflet": "0.7.7"
+    "leaflet": "^1.0.3"
   }
 }

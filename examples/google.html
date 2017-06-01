@@ -2,14 +2,13 @@
 <html>
   <head>
     <title>Leaflet</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>
 
-    <link rel="stylesheet" href="../bower_components/leaflet/dist/leaflet.css" />
-    <script src="../bower_components/leaflet/dist/leaflet.js"></script>
 
     <script src="../bower_components/google-maps/lib/Google.js"></script>
+<script src='https://unpkg.com/leaflet.gridlayer.googlemutant@latest/Leaflet.GoogleMutant.js'></script>
 
-    <link rel="stylesheet" href="../lib/leaflet-google.css" />
-    <script src="../lib/leaflet-google.js"></script>
 
     <script src="../bower_components/pubnub/dist/web/pubnub.min.js"></script>
     <script src="../eon-map.js"></script>
@@ -51,7 +50,14 @@
           zoom: 5
         },
         provider: 'google',
-        googleKey: 'AIzaSyBYcy2l0Yf4lDADZ_U0zi6dy0M6pFZyPQA'
+        googleKey: 'AIzaSyBYcy2l0Yf4lDADZ_U0zi6dy0M6pFZyPQA',
+        googleMutant: {
+          type: 'roadmap',
+          styles: [
+              {elementType: 'labels', stylers: [{visibility: 'off'}]},
+              {featureType: 'water', stylers: [{color: '#000000'}]}
+          ]
+        }
       });
 
       function connect() {
