@@ -21,7 +21,7 @@
     <script src="../bower_components/mapbox.js/mapbox.js"></script>
     <script src="../bower_components/pubnub/dist/web/pubnub.min.js"></script>
     <script src="../pubnub-mapbox.js"></script>
-    
+
   </head>
   <body>
     <div id='map'></div>
@@ -33,10 +33,10 @@
       }
     </script>
     <script>
-      
+
       var pubnub = new PubNub({
-        publishKey: 'YOUR_PUB_KEY',
-        subscribeKey: 'YOUR_SUB_KEY'
+        publishKey: 'demo',
+        subscribeKey: 'demo'
       });
 
       var channel = 'pubnub-mapbox' + getNonZeroRandomNumber();
