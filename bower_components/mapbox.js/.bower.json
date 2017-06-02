@@ -5,7 +5,7 @@
     "mapbox.js",
     "images/*"
   ],
-  "version": "2.4.0",
+  "version": "3.1.1",
   "homepage": "https://github.com/mapbox/mapbox.js",
   "authors": [
     "Mapbox"
@@ -25,14 +25,14 @@
     "test",
     "examples"
   ],
-  "_release": "2.4.0",
+  "_release": "3.1.1",
   "_resolution": {
     "type": "version",
-    "tag": "v2.4.0",
-    "commit": "a354d1ca720b68ad46ce21ac2957ffa6f671225b"
+    "tag": "v3.1.1",
+    "commit": "ed138325ee6af7650765a01387084cf28650efcc"
   },
   "_source": "https://github.com/mapbox/mapbox.js-bower.git",
-  "_target": "^2.4.0",
+  "_target": "^3.1.1",
   "_originalSource": "mapbox.js",
   "_direct": true
 }

@@ -35,5 +35,8 @@
     "google-maps": "^3.2.1",
     "leaflet": "^1.0.3",
     "Leaflet.GridLayer.GoogleMutant": "https://gitlab.com/IvanSanchez/Leaflet.GridLayer.GoogleMutant.git"
+  },
+  "resolutions": {
+    "mapbox.js": "^3.1.1"
   }
 }
