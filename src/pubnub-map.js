@@ -92,6 +92,12 @@ module.exports = function (options) {
         return console.error("Please supply a Google Maps API Key");
       }
 
+      options.options - options.options || {};
+
+      console.log('options', options.options)
+      options.options.center = options.options.center || new L.LatLng(30.2672, -97.7531);
+      options.options.zoom = options.options.zoom || 5;
+
       GoogleMapsLoader.KEY = options.googleKey;
 
       self.map = new L.Map('map', options.options);
