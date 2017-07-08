@@ -70,6 +70,14 @@ module.exports = function (options) {
       return console.error('You need to set an ID for your Mapbox element.');
     }
 
+    if(!options.channels && !options.channelGroups) {
+      return console.error('You need to supply channels or channelGroups to connect to.');
+    }
+
+    if(typeof options.channels !== 'array') {
+      return console.error('channels must be an array.');
+    }
+
     if(options.provider == 'mapbox') {
 
       if(typeof(options.mbToken) == "undefined" && console) {
@@ -91,6 +99,11 @@ module.exports = function (options) {
       if(typeof(options.googleKey) == "undefined" && console) {
         return console.error("Please supply a Google Maps API Key");
       }
+
+      options.options - options.options || {};
+
+      options.options.center = options.options.center || new L.LatLng(30.2672, -97.7531);
+      options.options.zoom = options.options.zoom || 5;
 
       GoogleMapsLoader.KEY = options.googleKey;
 
