@@ -74,10 +74,6 @@ module.exports = function (options) {
       return console.error('You need to supply channels or channelGroups to connect to.');
     }
 
-    if(typeof options.channels !== 'array') {
-      return console.error('channels must be an array.');
-    }
-
     if(options.provider == 'mapbox') {
 
       if(typeof(options.mbToken) == "undefined" && console) {
