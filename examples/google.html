@@ -32,10 +32,7 @@
 
       var channel = 'pubnub-mapbox' + getNonZeroRandomNumber();
 
-      var pointA = false;
-      var pointB = false;
-
-      var map = eon.map({
+      eon.map({
         pubnub: pubnub,
         id: 'map',
         channels: [channel],
@@ -52,35 +49,6 @@
               {elementType: 'labels', stylers: [{visibility: 'off'}]},
               {featureType: 'water', stylers: [{color: '#000000'}]}
           ]
-        },
-        message: function(message, timetoken, channel) {
-
-          console.log(message, timetoken, channel);
-
-          var currentPoint = new L.LatLng(message[0].latlng[0], message[0].latlng[1]);
-
-          if(pointA && pointB) {
-
-            var pointList = [pointA, pointB];
-
-            console.log(pointA)
-
-            var firstpolyline = new L.Polyline(pointList, {
-                color: 'red',
-                weight: 3,
-                opacity: 0.5,
-                smoothFactor: 1
-            });
-
-            console.log(map)
-
-            firstpolyline.addTo(map);
-
-          }
-
-          pointB = pointA;
-          pointA = currentPoint;
-
         }
       });
 
