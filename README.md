@@ -1,6 +1,6 @@
 # EON Maps
 
-Real-time location tracking powered by [PubNub](http://pubnub.com) and [MapBox](http://mapbox.com) or [Google Maps](https://developers.google.com/maps/).
+Real-time location tracking powered by [PubNub](http://pubnub.com) and [MapBox](http://mapbox.com) or [Google Maps](https://cloud.google.com/maps-platform/).
 
 ![](http://i.imgur.com/25Zg5YB.gif)
 
@@ -74,7 +74,7 @@ Parameter | Value | Default
 | channelGroups | An array of PubNub channel groups to subscribe to. Either ```channels``` or ```channelGroups``` must be supplied. | ```false```
 | transform | Method for changing the payload format of your stream. | ```function(m){}```
 | history | Use PubNub history call to retrieve last message. This will display points at their last known location. Requires [PubNub storage](http://www.pubnub.com/how-it-works/storage-and-playback/) to be enabled. | ```false```
-| pubnub | An instance of the PUBNUB javascript global. This is required when using your own keys. See the ```subscribeKey``` example. | ```false```
+| pubnub | An instance of the PubNub javascript global. This is required when using your own keys. See the ```subscribeKey``` example. | ```false```
 | connect | A function to call when PubNub makes a connection. See [PubNub subscribe](http://www.pubnub.com/docs/javascript/api/reference.html#subscribe) | ```function(){}``` |
 | marker | A custom Mapbox marker object. Use this to change the marker icon, tooltip, etc. | L.marker |
 | rotate | Add bearing to markers in ```options.angle```. This won't have any effect unless you're using [a rotated marker type](https://www.mapbox.com/mapbox.js/example/v1.0.0/rotating-controlling-marker/). | ```false``` |
@@ -157,7 +157,7 @@ var map = eon.map({
 You probably want to publish data from the back-end instead.
 Check out our docs for more info:
 
-http://www.pubnub.com/documentation/
+http://www.pubnub.com/docs/
 
 ## Following a Point
 
@@ -239,12 +239,12 @@ You can supply a custom Mapbox marker object with custom tooltips by extening th
 ## Configure using your own PubNub API Keys
 #### Using your own API Key with Eon Maps
 
-You can set the `pubnub` init parameter when using Eon Maps.  This allows you to configure PubNub client connections with extra security options such a `auth_key` and your `cipher_key`.  You should also set `secure: true` and `ssl: true` as well.
+You can set the `pubnub` init parameter when using Eon Maps.  This allows you to configure PubNub client connections with extra security options such a `auth_key` and your `cipher_key`.  You should also set `ssl: true` as well.
 
 ```html
 <div id="map"></div>
 <script>
-  var pn  = PUBNUB({
+  var pn  = new PubNub({
     subscribeKey : 'YOUR_SUB_KEY',
     ssl : true
   });
@@ -264,7 +264,7 @@ Check out the ```bus.html``` and ```flight.html``` for full featured examples.
 
 ## Customizing with Mapbox
 
-The MapBox map object is returned by ```eon.mapbox``` and can be customized using the [Mapbox API](https://www.mapbox.com/mapbox.js/api/v3.1.5/). Also see the [Mapbox examples page](https://www.mapbox.com/mapbox.js/example/v1.0.0/).
+The MapBox map object is returned by ```eon.mapbox``` and can be customized using the [Mapbox API](https://www.mapbox.com/mapbox.js/api/v3.1.1/). Also see the [Mapbox examples page](https://www.mapbox.com/mapbox.js/example/v1.0.0/).
 
 Also note that you can customize your map using Mapbox map editor. You can change the map background style, add static markers, etc. Visit [Mapbox](https://www.mapbox.com/) for your own API key.
 
