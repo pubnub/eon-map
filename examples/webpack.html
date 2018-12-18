@@ -16,7 +16,7 @@
         width:100%;
       }
     </style>
-
+    <link rel="stylesheet" href="../../node_modules/mapbox-gl/dist/mapbox-gl.css"></link>
     <script type="text/javascript" src="../eon-map.js"></script>
 
   </head>
@@ -52,22 +52,45 @@
 
       function connect() {
 
-        var point = {
-          lnglat: [40, 40]
-        };
+        var torchys = [
+          {
+            lnglat: [-97.756138, 30.370375]
+          },
+          {
+            lnglat: [-97.739144, 30.323118]
+          },
+          {
+            lnglat: [-97.699490, 30.302816]
+          },
+          {
+            lnglat: [-97.742405, 30.293479]
+          },
+          {
+            lnglat: [-97.754593, 30.250337]
+          },
+          {
+            lnglat: [-97.762730, 30.236689]
+          }
+        ];
 
         setInterval(function(){
 
-          var new_point = JSON.parse(JSON.stringify(point));
+          var new_torchys = JSON.parse(JSON.stringify(torchys));
+          for (var i = 0; i < new_torchys.length; i++) {
 
-          new_point.lnglat = [
-            new_point.lnglat[0] + (getNonZeroRandomNumber() * 0.1),
-            new_point.lnglat[1] + (getNonZeroRandomNumber() * 0.2)
-          ];
+            new_torchys[i] = {
+              marker: new_torchys[i].marker,
+              lnglat: [
+                new_torchys[i].lnglat[0] + (getNonZeroRandomNumber() * 0.0002),
+                new_torchys[i].lnglat[1] + (getNonZeroRandomNumber() * 0.0002)
+              ]
+            }
+
+          }
 
           pubnub.publish({
             channel: channel,
-            message: [new_point]
+            message: new_torchys
           });
 
         }, 1000);

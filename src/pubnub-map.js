@@ -86,7 +86,8 @@ module.exports = function (options) {
 
       self.map = new mapboxgl.Map({
           container: options.id,
-          style: 'mapbox://styles/mapbox/streets-v9'
+          style: 'mapbox://styles/mapbox/streets-v9',
+          center: [-97.756138, 30.370375]
       });
 
     }
@@ -99,7 +100,7 @@ module.exports = function (options) {
 
       options.options - options.options || {};
 
-      options.options.center = options.options.center || new L.lnglat(30.2672, -97.7531);
+      options.options.center = options.options.center || [0, 0];
       options.options.zoom = options.options.zoom || 5;
 
       GoogleMapsLoader.KEY = options.googleKey;
@@ -176,6 +177,8 @@ module.exports = function (options) {
 
       var startlnglat = self.markers[index].getLngLat();
 
+      console.log('starting', startlnglat, 'destination', destination)
+
       var animation = {
         start: startlnglat,
         dest: destination,
@@ -211,8 +214,8 @@ module.exports = function (options) {
           if(s.numSteps <= s.maxSteps) {
 
             // probably has to do with this math
-            s.latDistance = self.animations[index].dest[0] - s.position.lat;
-            s.lngDistance = self.animations[index].dest[1] - s.position.lng;
+            s.lngDistance = self.animations[index].dest[0] - s.position.lng;
+            s.latDistance = self.animations[index].dest[1] - s.position.lat;
 
             s.lat = s.position.lat + ((s.latDistance / s.maxSteps) * s.numSteps);
             s.lng = s.position.lng + ((s.lngDistance / s.maxSteps) * s.numSteps);
