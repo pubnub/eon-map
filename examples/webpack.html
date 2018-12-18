@@ -31,11 +31,9 @@
     </script>
     <script>
 
-    console.log(eon)
-
       var pubnub = new PubNub({
-        publishKey: 'demo',
-        subscribeKey: 'demo'
+        publishKey: 'pub-c-3abed671-2745-4a1c-a66f-854153b33477',
+        subscribeKey: 'sub-c-88bee4ee-022f-11e9-ba8a-aef4d14eb57e'
       });
 
       var channel = 'pubnub-mapbox' + getNonZeroRandomNumber();
@@ -43,28 +41,28 @@
       eon.map({
         pubnub: pubnub,
         id: 'map',
-        mbToken: 'pk.eyJ1IjoiaWFuamVubmluZ3MiLCJhIjoiZExwb0p5WSJ9.XLi48h-NOyJOCJuu1-h-Jg',
-        mbId: 'ianjennings.l896mh2e',
+        mbToken: 'pk.eyJ1IjoiaWFuajNubmluZ3MiLCJhIjoiY2pwc281dWY3MTBqbzQ3b2E3a3F3bW9oNSJ9.yqpcm1l72f27OL8cMDM6yw',
         channels: [channel],
         connect: connect,
         options: {
           zoomAnimation: false,
         },
+        debug: true
       });
 
       function connect() {
 
         var point = {
-          latlng: [37.370375, -97.756138]
+          lnglat: [40, 40]
         };
 
         setInterval(function(){
 
           var new_point = JSON.parse(JSON.stringify(point));
 
-          new_point.latlng = [
-            new_point.latlng[0] + (getNonZeroRandomNumber() * 0.1),
-            new_point.latlng[1] + (getNonZeroRandomNumber() * 0.2)
+          new_point.lnglat = [
+            new_point.lnglat[0] + (getNonZeroRandomNumber() * 0.1),
+            new_point.lnglat[1] + (getNonZeroRandomNumber() * 0.2)
           ];
 
           pubnub.publish({

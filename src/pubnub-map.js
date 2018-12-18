@@ -1,3 +1,5 @@
+let mapboxgl = require('mapbox-gl');
+
 module.exports = function (options) {
 
     options.debug = options.debug || false;
@@ -53,7 +55,7 @@ module.exports = function (options) {
     options.message = options.message || function(){};
     options.connect = options.connect || function(){};
     options.rotate = options.rotate || false;
-    options.marker = options.marker || L.marker;
+    options.marker = options.marker || mapboxgl.Marker;
     options.options = options.options || {};
 
     options.provider = options.provider || 'mapbox';
@@ -80,13 +82,12 @@ module.exports = function (options) {
         return console.error("Please supply a Mapbox Token: https://www.mapbox.com/help/create-api-access-token/");
       }
 
-      if(typeof(options.mbId) == "undefined" && console) {
-        return console.error("Please supply a Mapbox Map ID: https://www.mapbox.com/help/define-map-id/");
-      }
+      mapboxgl.accessToken = options.mbToken;
 
-      L.mapbox.accessToken = options.mbToken;
-
-      self.map = L.mapbox.map(options.id, options.mbId, options.options);
+      self.map = new mapboxgl.Map({
+          container: options.id,
+          style: 'mapbox://styles/mapbox/streets-v9'
+      });
 
     }
 
@@ -98,7 +99,7 @@ module.exports = function (options) {
 
       options.options - options.options || {};
 
-      options.options.center = options.options.center || new L.LatLng(30.2672, -97.7531);
+      options.options.center = options.options.center || new L.lnglat(30.2672, -97.7531);
       options.options.zoom = options.options.zoom || 5;
 
       GoogleMapsLoader.KEY = options.googleKey;
@@ -129,17 +130,18 @@ module.exports = function (options) {
 
             var data = seed[key].data || {};
 
-            self.markers[key]= options.marker(seed[key].latlng, seed[key].data);
+            self.markers[key] = new options.marker();
+            self.markers[key].setLngLat(seed[key].lnglat);
             self.markers[key].addTo(self.map);
 
           } else {
 
             if(animate) {
               clog('Markers:', 'Animating');
-              self.animate(key, seed[key].latlng);
+              self.animate(key, seed[key].lnglat);
             } else {
               clog('Markers:', 'Updating');
-              self.updateMarker(key, seed[key].latlng);
+              self.updateMarker(key, seed[key].lnglat);
             }
 
           }
@@ -161,7 +163,7 @@ module.exports = function (options) {
       if(point && point.length > 1) {
 
         if(isNumber(point[0]) && isNumber(point[1])) {
-          self.markers[index].setLatLng(point);
+          self.markers[index].setLngLat(point);
         }
 
       }
@@ -172,10 +174,10 @@ module.exports = function (options) {
 
     self.animate = function (index, destination) {
 
-      var startlatlng = self.markers[index].getLatLng();
+      var startlnglat = self.markers[index].getLngLat();
 
       var animation = {
-        start: startlatlng,
+        start: startlnglat,
         dest: destination,
         time: new Date().getTime(),
         length: new Date().getTime() - (self.lastUpdates[index] || new Date().getTime())
@@ -215,7 +217,7 @@ module.exports = function (options) {
             s.lat = s.position.lat + ((s.latDistance / s.maxSteps) * s.numSteps);
             s.lng = s.position.lng + ((s.lngDistance / s.maxSteps) * s.numSteps);
 
-            s.nextStep = [s.lat, s.lng];
+            s.nextStep = [s.lng, s.lat];
 
             self.updateMarker(index, s.nextStep);
 

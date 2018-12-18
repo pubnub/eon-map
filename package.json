@@ -37,7 +37,7 @@
     "google-maps": "^3.2.1",
     "leaflet": "^1.0.3",
     "leaflet.gridlayer.googlemutant": "^0.6.2",
-    "mapbox.js": "^3.1.1",
+    "mapbox-gl": "^0.52.0-beta.2",
     "pubnub": "^4.0.13"
   },
   "devDependencies": {
