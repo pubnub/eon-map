@@ -47,53 +47,34 @@
         options: {
           zoomAnimation: false,
         },
-        debug: true
+        refreshRate: 100
       });
+
+      function getRandomInRange(from, to, fixed) {
+          return (Math.random() * (to - from) + from).toFixed(fixed) * 1;
+          // .toFixed() returns string, so ' * 1' is a trick to convert to number
+      }
 
       function connect() {
 
-        var torchys = [
-          {
-            lnglat: [-97.756138, 30.370375]
-          },
-          {
-            lnglat: [-97.739144, 30.323118]
-          },
-          {
-            lnglat: [-97.699490, 30.302816]
-          },
-          {
-            lnglat: [-97.742405, 30.293479]
-          },
-          {
-            lnglat: [-97.754593, 30.250337]
-          },
-          {
-            lnglat: [-97.762730, 30.236689]
-          }
-        ];
+        let last = [];
 
         setInterval(function(){
 
-          var new_torchys = JSON.parse(JSON.stringify(torchys));
-          for (var i = 0; i < new_torchys.length; i++) {
+          for (var i = 0; i < 300; i++) {
 
-            new_torchys[i] = {
-              marker: new_torchys[i].marker,
-              lnglat: [
-                new_torchys[i].lnglat[0] + (getNonZeroRandomNumber() * 0.0002),
-                new_torchys[i].lnglat[1] + (getNonZeroRandomNumber() * 0.0002)
-              ]
-            }
+              last[i] = {
+                lnglat: [getRandomInRange(-180, 180, 3), getRandomInRange(-90, 90, 3)]
+              }
 
           }
 
           pubnub.publish({
             channel: channel,
-            message: new_torchys
+            message: last
           });
 
-        }, 1000);
+        }, 3000);
 
       };
 

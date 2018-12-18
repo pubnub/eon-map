@@ -14517,8 +14517,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      var startlnglat = self.markers[index].getLngLat();
 
-	      console.log('starting', startlnglat, 'destination', destination)
-
 	      var animation = {
 	        start: startlnglat,
 	        dest: destination,
