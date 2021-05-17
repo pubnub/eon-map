@@ -1,0 +1,168 @@
+---
+name: eon-map
+scm: https://github.com/pubnub/eon-map
+version: "1.2.2"
+schema: 1
+files:
+  - ./eon-map.js
+changelog:
+  - version: 1.2.2
+    date: 2017-07-08
+    changes:
+      - type: improvement
+        text: "Remove bad error checks."
+  - version: 1.2.1
+    date: 2017-07-08
+    changes:
+      - type: bug
+        text: "Fix require path for `mapbox.js`."
+      - type: improvement
+        text: "Add channels / groups verifications."
+      - type: improvement
+        text: "Add default map zoom and center location."
+  - version: 1.2.0
+    date: 2017-07-07
+    changes:
+      - type: improvement
+        text: "Move from Bower builds to Webpack"
+      - type: improvement
+        text: "Update keys used by demos."
+  - version: 1.1.4
+    date: 2017-06-02
+    changes:
+      - type: bug
+        text: "Fix mapbox dependency."
+  - version: 1.1.3
+    date: 2017-06-02
+    changes:
+      - type: improvement
+        text: "Update mapbox to v3"
+  - version: 1.1.1
+    date: 2017-06-02
+    changes:
+      - type: feature
+        text: "Add Leaflet Mutant plugin to display baselayers using mutation observers."
+  - version: 1.1.0
+    date: 2017-06-02
+    changes:
+      - type: feature
+        text: "Add Google maps support."
+features:
+  channel-groups:
+    - CHANNEL-GROUPS-LIST-CHANNELS-IN-GROUP
+  storage:
+    - STORAGE-INCLUDE-TIMETOKEN
+    - STORAGE-COUNT
+    - STORAGE-FETCH-MESSAGES
+  subscribe:
+    - SUBSCRIBE-CHANNELS
+    - SUBSCRIBE-CHANNEL-GROUPS
+    - SUBSCRIBE-PUBSUB-V2
+sdks:
+  - full-name: EON Maps Framework
+    short-name: EON Maps
+    artifacts:
+      - artifact-type: framework
+        language: JavaScript
+        tier: 3
+        tags: 
+          - Web
+        source-repository: https://github.com/pubnub/eon-map
+        documentation: https://www.pubnub.com/developers/eon
+        distributions:
+          - distribution-type: source
+            distribution-repository: GitHub release
+            package-name: EON Maps Framework
+            location: https://github.com/pubnub/eon-map/releases/tag/1.2.2
+            supported-platforms:
+              supported-browsers:
+                minimun-supported-version:
+                  - Safari 10.0
+                  - Mozilla Firefox 51.0
+                  - Google Chrome 56.0
+                  - Opera 41.0
+                  - Microsoft Edge 38
+            requires:
+              - name: google-maps
+                min-version: 3.2.1
+                max-version: 3.3.0
+                location: Shipped within framework
+                license: MIT
+                license-url: https://github.com/davidkudera/google-maps-loader/blob/master/LICENSE
+                is-required: Required
+              - name: leaflet
+                min-version: 1.0.3
+                max-version: 1.7.1
+                location: Shipped within framework
+                license: BSD-2-Clause
+                license-url: https://github.com/Leaflet/Leaflet/blob/master/LICENSE
+                is-required: Required
+              - name: leaflet.gridlayer.googlemutant
+                min-version: 0.6.2
+                max-version: 0.6.4
+                location: Shipped within framework
+                license: Beerware
+                license-url: https://gitlab.com/IvanSanchez/Leaflet.GridLayer.GoogleMutant/-/blob/master/LICENSE
+                is-required: Required
+              - name: mapbox.js
+                min-version: 3.1.1
+                max-version: 3.3.1
+                location: Shipped within framework
+                license: BSD-3-Clause
+                license-url: https://github.com/mapbox/mapbox.js/blob/publisher-production/LICENSE.md
+                is-required: Required
+              - name: pubnub
+                min-version: 4.0.13
+                max-version: 4.32.0
+                location: Shipped within framework
+                license: MIT
+                license-url: https://github.com/pubnub/javascript/blob/master/LICENSE
+                is-required: Required
+          - distribution-type: package
+            distribution-repository: NPM
+            package-name: EON Maps Framework
+            location: https://www.npmjs.com/package/eon-map
+            supported-platforms:
+              supported-browsers:
+                minimun-supported-version:
+                  - Safari 10.0
+                  - Mozilla Firefox 51.0
+                  - Google Chrome 56.0
+                  - Opera 41.0
+                  - Microsoft Edge 38
+            requires:
+              - name: google-maps
+                min-version: 3.2.1
+                max-version: 3.3.0
+                location: Shipped within framework
+                license: MIT
+                license-url: https://github.com/davidkudera/google-maps-loader/blob/master/LICENSE
+                is-required: Required
+              - name: leaflet
+                min-version: 1.0.3
+                max-version: 1.7.1
+                location: Shipped within framework
+                license: BSD-2-Clause
+                license-url: https://github.com/Leaflet/Leaflet/blob/master/LICENSE
+                is-required: Required
+              - name: leaflet.gridlayer.googlemutant
+                min-version: 0.6.2
+                max-version: 0.6.4
+                location: Shipped within framework
+                license: Beerware
+                license-url: https://gitlab.com/IvanSanchez/Leaflet.GridLayer.GoogleMutant/-/blob/master/LICENSE
+                is-required: Required
+              - name: mapbox.js
+                min-version: 3.1.1
+                max-version: 3.3.1
+                location: Shipped within framework
+                license: BSD-3-Clause
+                license-url: https://github.com/mapbox/mapbox.js/blob/publisher-production/LICENSE.md
+                is-required: Required
+              - name: pubnub
+                min-version: 4.0.13
+                max-version: 4.32.0
+                location: Shipped within framework
+                license: MIT
+                license-url: https://github.com/pubnub/javascript/blob/master/LICENSE
+                is-required: Required
