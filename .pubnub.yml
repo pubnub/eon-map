@@ -61,10 +61,10 @@ features:
 sdks:
   - full-name: EON Maps Framework
     short-name: EON Maps
+    tier: 3
     artifacts:
       - artifact-type: framework
         language: JavaScript
-        tier: 3
         tags: 
           - Web
         source-repository: https://github.com/pubnub/eon-map
