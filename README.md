@@ -1,3 +1,7 @@
+## Please note that this project is no longer actively maintained or accepting Pull Requests.  The EON library remains available on npm, bower, or through hotlink.
+
+--------------------------------
+
 # EON Maps
 
 Real-time location tracking powered by [PubNub](http://pubnub.com) and [MapBox](http://mapbox.com) or [Google Maps](https://developers.google.com/maps/).
